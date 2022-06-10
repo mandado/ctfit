@@ -11,7 +11,7 @@ import {
   ViewGridAddIcon,
   XIcon,
 } from "@heroicons/react/outline";
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, NavLink } from "@remix-run/react";
 import { Fragment, ReactNode, useState } from "react";
 import { cx } from "~/shared/helpers";
 import { useOrganization, useUser } from "~/utils";
@@ -100,15 +100,17 @@ export default function Default({ children }: { children: ReactNode }) {
                     <nav aria-label="Sidebar" className="mt-5">
                       <div className="space-y-1 px-2">
                         {navigation.map((item) => (
-                          <a
+                          <NavLink
                             key={item.name}
-                            href={item.href}
-                            className={cx(
-                              item.current
-                                ? "bg-gray-100 text-gray-900"
-                                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                              "group flex items-center rounded-md px-2 py-2 text-base font-medium"
-                            )}
+                            to={item.href}
+                            className={({ isActive }) => {
+                              return cx(
+                                "group flex items-center rounded-md px-2 py-2 text-base font-medium",
+                                isActive
+                                  ? "bg-gray-100 text-gray-900"
+                                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                              );
+                            }}
                             aria-current={item.current ? "page" : undefined}
                           >
                             <item.icon
@@ -121,7 +123,7 @@ export default function Default({ children }: { children: ReactNode }) {
                               aria-hidden="true"
                             />
                             {item.name}
-                          </a>
+                          </NavLink>
                         ))}
                       </div>
                       <hr
@@ -191,28 +193,33 @@ export default function Default({ children }: { children: ReactNode }) {
                 <nav className="mt-5 flex-1" aria-label="Sidebar">
                   <div className="space-y-1 px-2">
                     {navigation.map((item) => (
-                      <Link
+                      <NavLink
                         key={item.name}
                         to={item.href}
-                        className={cx(
-                          item.current
-                            ? "bg-gray-200 text-gray-900"
-                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                          "group flex items-center rounded-md px-2 py-2 text-sm font-medium"
-                        )}
-                        aria-current={item.current ? "page" : undefined}
+                        className={({ isActive }) => {
+                          return cx(
+                            "group flex items-center rounded-md px-2 py-2 text-base font-medium",
+                            isActive
+                              ? "bg-gray-200 text-gray-900"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                          );
+                        }}
                       >
-                        <item.icon
-                          className={cx(
-                            item.current
-                              ? "text-gray-500"
-                              : "text-gray-400 group-hover:text-gray-500",
-                            "mr-3 h-6 w-6 flex-shrink-0"
-                          )}
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </Link>
+                        {({ isActive }) => (
+                          <>
+                            <item.icon
+                              className={cx(
+                                isActive
+                                  ? "text-gray-500"
+                                  : "text-gray-400 group-hover:text-gray-500",
+                                "mr-3 h-6 w-6 flex-shrink-0"
+                              )}
+                              aria-hidden="true"
+                            />
+                            {item.name}
+                          </>
+                        )}
+                      </NavLink>
                     ))}
                   </div>
                   <hr

@@ -43,14 +43,47 @@ export async function createOrganization({ name, user_id }: OrganizationForm) {
     .insert({ name })
     .single();
 
-  console.log(error);
   if (!error) {
-    const { error } = await supabase
+    await supabase
       .from("members")
       .insert({ organization_id: data.id, user_id, owner: true })
       .single();
 
     return data;
+  }
+
+  return null;
+}
+
+export async function removeOrganization({
+  id,
+  user_id,
+}: Pick<Organization, "id"> & { user_id: User["id"] }) {
+  const { data: organizationMember, error: organizationError } = await supabase
+    .from("members")
+    .select("organization_id")
+    .eq("user_id", user_id)
+    .eq("organization_id", user_id)
+    .single();
+
+  if (organizationError) {
+    console.log(organizationError);
+
+    return null;
+  }
+
+  if (!organizationMember) {
+    return null;
+  }
+
+  const { error } = await supabase
+    .from("organization")
+    .delete({ returning: "minimal" })
+    .match({ id });
+
+  if (!error) {
+    console.log(error);
+    return {};
   }
 
   return null;

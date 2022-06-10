@@ -1,15 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Form, Link, NavLink, Outlet, useLoaderData } from "@remix-run/react";
-import Default from "~/layout/Default";
-import { requireUserId } from "~/session.server";
-import { useUser } from "~/utils";
-
-// export const loader: LoaderFunction = async ({ request }) => {
-//   const userId = await requireUserId(request);
-//   const noteListItems = await getNoteListItems({ userId });
-//   return json({ noteListItems });
-// };
+import { Outlet } from "@remix-run/react";
 
 export default function NotesPage() {
   return (

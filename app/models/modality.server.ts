@@ -1,16 +1,6 @@
-import type { Base } from "~/types/common/base";
+import type { Modality, ModalityForm } from "~/domain/modalities/schema";
 import type { OrganizationIdParams } from "./organization.server";
 import { supabase } from "./user.server";
-
-import z from "zod";
-import type { Merge } from "type-fest";
-
-export const ModalitySchema = z.object({
-  name: z.string().min(1, "Preencha o nome"),
-});
-
-export type Modality = Merge<ModalityFields, Base>;
-export type ModalityFields = z.infer<typeof ModalitySchema>;
 
 export async function getModalities({ organization_id }: OrganizationIdParams) {
   const { data } = await supabase
@@ -21,7 +11,7 @@ export async function getModalities({ organization_id }: OrganizationIdParams) {
   return data;
 }
 
-export async function createModality(modality: ModalityFields) {
+export async function createModality(modality: ModalityForm) {
   const { data, error } = await supabase
     .from("modalities")
     .insert(modality)
@@ -64,6 +54,20 @@ export async function getModality({
 
   if (!error) {
     return data as Modality;
+  }
+
+  return null;
+}
+
+export async function updateModality(id: string, modality: ModalityForm) {
+  const { data, error } = await supabase
+    .from("modalities")
+    .update(modality)
+    .eq("id", id)
+    .single();
+
+  if (!error) {
+    return data;
   }
 
   return null;

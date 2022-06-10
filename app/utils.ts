@@ -6,6 +6,8 @@ import { Organization } from "./domain/organizations/schema";
 export function useMatchesData(id: string) {
   const matchingRoutes = useMatches();
 
+  console.log(matchingRoutes);
+
   const route = useMemo(
     () => matchingRoutes.find((route) => route.id === id),
     [matchingRoutes, id]

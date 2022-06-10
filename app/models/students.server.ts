@@ -41,7 +41,7 @@ export async function updateStudent(id: string, student: StudentForm) {
     return data;
   }
 
-  return null;
+  return { error };
 }
 
 export async function deleteStudent({
@@ -74,6 +74,26 @@ export async function getStudent({
     `
     )
     .eq("organization_id", organization_id)
+    .eq("id", id)
+    .single();
+
+  if (!error) {
+    return data as Student;
+  }
+
+  return null;
+}
+
+export async function getStudentById({ id }: Pick<Student, "id">) {
+  const { data, error } = await supabase
+    .from("students")
+    .select(
+      `*, 
+      modality:modalities (
+        id, name
+      )
+    `
+    )
     .eq("id", id)
     .single();
 

@@ -87,7 +87,7 @@ export async function requireOrganizationId(
   const organizationId = await getOrganizationId(request);
   if (!organizationId && !redirectTo.includes("organization")) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    throw redirect(`/organization?${searchParams}`);
+    throw redirect(`/organizations?${searchParams}`);
   }
 
   return { organizationId, userId };

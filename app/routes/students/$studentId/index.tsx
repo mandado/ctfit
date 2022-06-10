@@ -7,6 +7,7 @@ import invariant from "tiny-invariant";
 import { Student } from "~/domain/students/schema";
 import { ChevronLeftIcon } from "@heroicons/react/solid";
 import Avvvatars from "avvvatars-react";
+import { formatDate } from "~/shared/format";
 
 type LoaderData = {
   student: Student;
@@ -44,7 +45,6 @@ export default function NoteDetailsPage() {
 
   return (
     <>
-      {/* Breadcrumb */}
       <nav
         className="flex items-start px-4 py-3 sm:px-6 lg:px-8 xl:hidden"
         aria-label="Breadcrumb"
@@ -62,7 +62,6 @@ export default function NoteDetailsPage() {
       </nav>
 
       <article>
-        {/* Profile header */}
         <div>
           <div>
             <div className="h-32 w-full bg-gray-50 object-cover lg:h-48"></div>
@@ -106,7 +105,6 @@ export default function NoteDetailsPage() {
           </div>
         </div>
 
-        {/* Description list */}
         <div className="mx-auto mt-6 max-w-5xl px-4 sm:px-6 lg:px-8">
           <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
             <div className="sm:col-span-1">
@@ -158,7 +156,7 @@ export default function NoteDetailsPage() {
             <div className="sm:col-span-1">
               <dt className="text-sm font-medium text-gray-500">Criado em</dt>
               <dd className="mt-1 text-sm text-gray-900">
-                {student.created_at}
+                {formatDate(student.created_at)}
               </dd>
             </div>
           </dl>
