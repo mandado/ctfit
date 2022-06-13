@@ -1,5 +1,5 @@
 import { InputError, makeDomainFunction } from "remix-domains";
-import { updateStudent as updateStudentData } from "~/models/students.server";
+import { updateStudent as updateStudentData } from "~/models/student.server";
 import { EnvironmentSchema } from "~/shared/schemas/environment";
 import { StudentSchema } from "./schema";
 

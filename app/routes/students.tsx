@@ -2,7 +2,7 @@ import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useFetcher, useLoaderData, useSubmit } from "@remix-run/react";
 import Default from "~/layout/Default";
-import { createStudent, getStudents } from "~/models/students.server";
+import { createStudent, getStudents } from "~/models/student.server";
 import { requireOrganizationId } from "~/session.server";
 
 import { Student } from "~/domain/students/schema";
@@ -22,7 +22,6 @@ export const action: ActionFunction = async ({ request }) => {
     email: "",
     graduation: "",
     modality_id: undefined,
-    monthly_payment: 0,
     name: "",
     phone: "",
     weight: 0,

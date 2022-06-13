@@ -4,10 +4,11 @@ import { useFormAction, useLoaderData } from "@remix-run/react";
 import { formAction } from "remix-forms";
 import invariant from "tiny-invariant";
 import Form from "~/components/Form";
+import { Modality } from "~/domain/modalities/schema";
 import { Student, StudentSchema } from "~/domain/students/schema";
 import { updateStudent } from "~/domain/students/updateStudent";
-import { getModalities, Modality } from "~/models/modality.server";
-import { getStudent, getStudentById } from "~/models/students.server";
+import { getModalities } from "~/models/modality.server";
+import { getStudent, getStudentById } from "~/models/student.server";
 import { requireOrganizationId } from "~/session.server";
 import { toSelectOptions } from "~/shared/helpers";
 
@@ -69,6 +70,7 @@ export default function NewStudentPage() {
   return (
     <div className="h-full overflow-y-scroll p-6">
       <Form
+        hiddenFields={["organization_id", "plan_id"]}
         mode="all"
         schema={StudentSchema}
         values={data.student}

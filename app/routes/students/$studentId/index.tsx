@@ -1,7 +1,7 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
-import { deleteStudent, getStudent } from "~/models/students.server";
+import { deleteStudent, getStudent } from "~/models/student.server";
 import { requireOrganizationId } from "~/session.server";
 import invariant from "tiny-invariant";
 import { Student } from "~/domain/students/schema";
@@ -24,6 +24,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (!student) {
     throw new Response("Not Found", { status: 404 });
   }
+
+  console.log(student)
 
   return json({ student });
 };
@@ -86,6 +88,12 @@ export default function NoteDetailsPage() {
                   >
                     Editar
                   </Link>
+                  <Link
+                    to={`/students/${student.id}/payments`}
+                    className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                  >
+                    Pagamentos
+                  </Link>
                   <Form method="post">
                     <button
                       type="submit"
@@ -141,10 +149,10 @@ export default function NoteDetailsPage() {
             </div>
             <div className="sm:col-span-1">
               <dt className="text-sm font-medium text-gray-500">
-                Pagamento Mensal
+                Plano
               </dt>
               <dd className="mt-1 text-sm text-gray-900">
-                {student.monthly_payment}
+                {student.plan?.name}
               </dd>
             </div>
             <div className="sm:col-span-1">

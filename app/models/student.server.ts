@@ -68,8 +68,12 @@ export async function getStudent({
     .from("students")
     .select(
       `*, 
-      modality:modalities (
+      modality:modality_id(
         id, name
+      ),
+      plan:plan_id(
+        id,
+        name
       )
     `
     )
@@ -81,7 +85,7 @@ export async function getStudent({
     return data as Student;
   }
 
-  return null;
+  throw error;
 }
 
 export async function getStudentById({ id }: Pick<Student, "id">) {

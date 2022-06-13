@@ -17,12 +17,16 @@ import { cx } from "~/shared/helpers";
 import { useOrganization, useUser } from "~/utils";
 
 const navigation = [
-  { name: "Alunos", href: "/students", icon: UserGroupIcon, current: false },
+  { name: "Alunos", href: "/students", icon: UserGroupIcon },
   {
     name: "Modalidades",
     href: "/modalities",
     icon: SearchCircleIcon,
-    current: true,
+  },
+  {
+    name: "Planos",
+    href: "/plans",
+    icon: SearchCircleIcon,
   },
 ];
 const secondaryNavigation = [
