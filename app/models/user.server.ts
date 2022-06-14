@@ -25,16 +25,24 @@ export async function createUser(email: string, password: string) {
     password,
   });
 
+  if (user) {
+    const { error } = await supabase
+      .from("profiles")
+      .update({ role: "admin" })
+      .eq("id", user.id)
+      .single();
+
+    console.log(error);
+  }
   // get the user profile after created
   const profile = await getProfileByEmail(user?.email);
-
   return profile;
 }
 
 export async function getProfileById(id: string) {
   const { data, error } = await supabase
     .from("profiles")
-    .select("email, id")
+    .select("email, id, role")
     .eq("id", id)
     .single();
 
@@ -45,7 +53,7 @@ export async function getProfileById(id: string) {
 export async function getProfileByEmail(email?: string) {
   const { data, error } = await supabase
     .from("profiles")
-    .select("email, id")
+    .select("email, id, role")
     .eq("email", email)
     .single();
 

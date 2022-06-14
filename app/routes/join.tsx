@@ -38,7 +38,7 @@ export const action: ActionFunction = async ({ request }) => {
   // Ensure the email is valid
   if (!validateEmail(email)) {
     return json<ActionData>(
-      { errors: { email: "Email is invalid." } },
+      { errors: { email: "Email é inválido." } },
       { status: 400 }
     );
   }
@@ -46,7 +46,7 @@ export const action: ActionFunction = async ({ request }) => {
   // What if a user sends us a password through other means than our form?
   if (typeof password !== "string") {
     return json(
-      { errors: { password: "Valid password is required." } },
+      { errors: { password: "uma senha válida é obrigatória." } },
       { status: 400 }
     );
   }
@@ -54,7 +54,7 @@ export const action: ActionFunction = async ({ request }) => {
   // Enforce minimum password length
   if (password.length < 6) {
     return json<ActionData>(
-      { errors: { password: "Password is too short." } },
+      { errors: { password: "Sua senha é muito curta." } },
       { status: 400 }
     );
   }
@@ -64,7 +64,7 @@ export const action: ActionFunction = async ({ request }) => {
   const existingUser = await getProfileByEmail(email);
   if (existingUser) {
     return json<ActionData>(
-      { errors: { email: "A user already exists with this email." } },
+      { errors: { email: "já existe uma conta com esse email." } },
       { status: 400 }
     );
   }
@@ -103,7 +103,7 @@ export default function Join() {
         <Form className="space-y-6" method="post" noValidate>
           <div>
             <label className="text-sm font-medium" htmlFor="email">
-              <span className="block text-gray-700">Email Address</span>
+              <span className="block text-gray-700">Email</span>
               {actionData?.errors?.email && (
                 <span className="block pt-1 text-red-700" id="email-error">
                   {actionData?.errors?.email}
@@ -123,9 +123,9 @@ export default function Join() {
           </div>
           <div>
             <label className="text-sm font-medium" htmlFor="password">
-              <span className="block text-gray-700">Password</span>
+              <span className="block text-gray-700">Senha</span>
               <span className="block font-light text-gray-700">
-                Must have at least 6 characters.
+                Deve ter pelo menos 6 caracteres.
               </span>
               {actionData?.errors?.password && (
                 <span className="pt-1 text-red-700" id="password-error">
@@ -148,12 +148,12 @@ export default function Join() {
             className="w-full rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
             type="submit"
           >
-            Create Account
+            Criar Conta
           </button>
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <div className="flex items-center justify-center">
             <div className="text-center text-sm text-gray-500">
-              Already have an account?{" "}
+              Já possui uma conta?{" "}
               <Link
                 className="text-blue-500 underline"
                 to={{
@@ -161,7 +161,7 @@ export default function Join() {
                   search: searchParams.toString(),
                 }}
               >
-                Log in
+                Entrar
               </Link>
             </div>
           </div>
