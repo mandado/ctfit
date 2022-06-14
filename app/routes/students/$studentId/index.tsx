@@ -8,6 +8,7 @@ import { Student } from "~/domain/students/schema";
 import { ChevronLeftIcon } from "@heroicons/react/solid";
 import Avvvatars from "avvvatars-react";
 import { formatDate } from "~/shared/format";
+import { copyTextToClipboard } from "~/shared/helpers";
 
 type LoaderData = {
   student: Student;
@@ -25,7 +26,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     throw new Response("Not Found", { status: 404 });
   }
 
-  console.log(student)
+  console.log(student);
 
   return json({ student });
 };
@@ -82,6 +83,16 @@ export default function NoteDetailsPage() {
                   </h1>
                 </div>
                 <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+                  <button
+                    onClick={() =>
+                      copyTextToClipboard(
+                        `${window.location.origin}/students/${student.id}/fill`
+                      )
+                    }
+                    className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                  >
+                    compartilhar
+                  </button>
                   <Link
                     to={`/students/${student.id}/edit`}
                     className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
@@ -148,9 +159,7 @@ export default function NoteDetailsPage() {
               </dd>
             </div>
             <div className="sm:col-span-1">
-              <dt className="text-sm font-medium text-gray-500">
-                Plano
-              </dt>
+              <dt className="text-sm font-medium text-gray-500">Plano</dt>
               <dd className="mt-1 text-sm text-gray-900">
                 {student.plan?.name}
               </dd>
