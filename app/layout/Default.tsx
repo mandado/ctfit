@@ -105,6 +105,7 @@ export default function Default({ children }: { children: ReactNode }) {
                       <div className="space-y-1 px-2">
                         {navigation.map((item) => (
                           <NavLink
+                            prefetch="intent"
                             key={item.name}
                             to={item.href}
                             className={({ isActive }) => {

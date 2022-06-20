@@ -21,7 +21,15 @@ const CustomLink = forwardRef<HTMLAnchorElement, LinkProps>(
       const { replace, state, ...domProps } = props;
       return <a {...domProps} className={classes} ref={ref} href={to} />;
     }
-    return <Link to={to} {...props} className={classes} ref={ref} />;
+    return (
+      <Link
+        prefetch="intent"
+        to={to}
+        {...props}
+        className={classes}
+        ref={ref}
+      />
+    );
   }
 );
 CustomLink.displayName = "Link";
