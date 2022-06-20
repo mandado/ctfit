@@ -1,16 +1,17 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useFormAction, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { formAction } from "remix-forms";
 import invariant from "tiny-invariant";
-import Form from "~/components/Form";
+import Form from "~/components/app/Form";
 import { Modality } from "~/domain/modalities/schema";
+import { getPlans } from "~/domain/plans/plan.server";
+import { Plan } from "~/domain/plans/schema";
 import { Student, StudentSchema } from "~/domain/students/schema";
 import { updateStudent } from "~/domain/students/updateStudent";
 import { getModalities } from "~/models/modality.server";
-import { getStudent, getStudentById } from "~/models/student.server";
-import { requireOrganizationId } from "~/session.server";
-import { toSelectOptions } from "~/shared/helpers";
+import { getStudentById } from "~/models/student.server";
+import { toHTMLSelectOptions, toSelectOptions } from "~/shared/helpers";
 
 export const action: ActionFunction = async ({ request, params }) => {
   invariant(params.studentId, "studentId not found");
@@ -19,7 +20,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   return formAction({
     request,
     schema: StudentSchema,
-    mutation: updateStudent(params.studentId),
+    mutation: updateStudent(params.studentId, new Date()),
     environment: { organization_id: form.get("organization_id") },
   });
 };
@@ -27,6 +28,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 type LoaderData = {
   modalities: Modality[];
   student: Student;
+  plans: Plan[];
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -48,6 +50,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     id: params.studentId,
   });
 
+  console.log(params.studentId);
+
   if (!student) {
     throw new Response("Not Found", { status: 404 });
   }
@@ -58,11 +62,14 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     throw new Response("Not Found", { status: 403 });
   }
 
-  const modalities = await getModalities({
-    organization_id: student.organization_id,
-  });
+  const [modalities, plans] = await Promise.all([
+    getModalities({
+      organization_id: student.organization_id,
+    }),
+    getPlans({ organization_id: student.organization_id }),
+  ]);
 
-  return json({ modalities, student });
+  return json({ modalities, plans, student });
 };
 
 export default function NewStudentPage() {
@@ -70,15 +77,15 @@ export default function NewStudentPage() {
   return (
     <div className="h-full overflow-y-scroll p-6">
       <Form
-        hiddenFields={["organization_id", "plan_id"]}
+        hiddenFields={["organization_id"]}
         mode="all"
         schema={StudentSchema}
         values={data.student}
         labels={{
-          modality_id: "Modalidade",
+          plan_id: "Plano",
         }}
         options={{
-          modality_id: toSelectOptions(data.modalities),
+          plan_id: toHTMLSelectOptions(data.plans),
         }}
       />
     </div>

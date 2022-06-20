@@ -6,8 +6,8 @@ import { createStudent, getStudents } from "~/models/student.server";
 import { requireOrganizationId } from "~/session.server";
 
 import { Student } from "~/domain/students/schema";
-import Shell from "~/components/Shell";
-import ShellListItem from "~/components/ShellListItem";
+import Shell from "~/components/app/Shell";
+import ShellListItem from "~/components/app/ShellListItem";
 import { useMatchesData } from "~/utils";
 
 type LoaderData = {
@@ -21,7 +21,6 @@ export const action: ActionFunction = async ({ request }) => {
     document_number: "",
     email: "",
     graduation: "",
-    modality_id: undefined,
     name: "",
     phone: "",
     weight: 0,

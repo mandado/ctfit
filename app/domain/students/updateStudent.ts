@@ -1,17 +1,23 @@
 import { InputError, makeDomainFunction } from "remix-domains";
 import { updateStudent as updateStudentData } from "~/models/student.server";
 import { EnvironmentSchema } from "~/shared/schemas/environment";
-import { StudentSchema } from "./schema";
+import { StudentForm, StudentSchema } from "./schema";
 
-export const updateStudent = (id: string) =>
+export const updateStudent = (id: string, filled_at?: Date) =>
   makeDomainFunction(
     StudentSchema,
     EnvironmentSchema
   )(async (values, env) => {
-    const result = await updateStudentData(id, {
+    const payload = {
       ...values,
       organization_id: env.organization_id,
-    });
+    } as StudentForm;
+
+    if (filled_at) {
+      payload.filled_at = filled_at;
+    }
+
+    const result = await updateStudentData(id, payload);
 
     if (result?.error?.message?.includes("unique_document_number_user")) {
       throw new InputError(

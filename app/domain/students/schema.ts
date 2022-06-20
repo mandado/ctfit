@@ -2,8 +2,7 @@ import z from "zod";
 import { validateCPF } from "validations-br";
 import type { Merge } from "type-fest";
 import type { Base } from "~/types/common/base";
-import type { Modality } from "../modalities/schema";
-import { Plan } from "../plans/schema";
+import type { Plan } from "../plans/schema";
 
 export const StudentSchema = z.object({
   name: z.string().min(1, "Preencha o nome"),
@@ -15,15 +14,15 @@ export const StudentSchema = z.object({
     .min(1, "Preencha o cpf")
     .refine((value) => validateCPF(value), { message: "Cpf inválido" }),
   weight: z.number().min(1, "O peso de ser maior que zero").default(0),
-  modality_id: z.string().min(1, "Selecione a modalidade"),
   plan_id: z.string().min(1, "Selecione o plano"),
   organization_id: z.string().optional(),
 });
 
 type Relations = {
-  modality?: Pick<Modality, "id" | "name">;
-  plan?: Plan
+  plan?: Plan;
 };
 
-export type StudentForm = Partial<z.infer<typeof StudentSchema>>;
+export type StudentForm = Partial<z.infer<typeof StudentSchema>> & {
+  filled_at?: Date;
+};
 export type Student = Merge<Merge<StudentForm, Base>, Relations>;

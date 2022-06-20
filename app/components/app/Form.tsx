@@ -3,6 +3,7 @@ import type { SomeZodObject } from "zod";
 import SubmitButton from "./Button";
 import Button from "./Button";
 import Error from "./Error";
+import Errors from "./Errors";
 import Input from "./Input";
 import Label from "./Label";
 import Select from "./Select";
@@ -20,6 +21,8 @@ export default function Form<Schema extends SomeZodObject>(
       buttonLabel="Salvar"
       renderField={({ Field, ...props }) => {
         const { name, errors } = props;
+
+        console.log(errors);
 
         return (
           <Field key={name as string} {...props}>

@@ -3,15 +3,19 @@ import type { Student, StudentForm } from "~/domain/students/schema";
 import type { OrganizationIdParams } from "./organization.server";
 import { supabase } from "./user.server";
 
-const TABLE = 'students_payments'
+const TABLE = "students_payments";
 
-export async function getStudentPayments({ organization_id, student_id }: OrganizationIdParams & { student_id: string }) {
+export async function getStudentPayments({
+  organization_id,
+  student_id,
+}: OrganizationIdParams & { student_id: string }) {
   const { data, error } = await supabase
     .from(TABLE)
     .select(
       `
       id,
       paid_at,
+      price,
       plan:plans(
         id,
         name,
@@ -23,17 +27,14 @@ export async function getStudentPayments({ organization_id, student_id }: Organi
     .eq("student_id", student_id);
 
   if (error) {
-    console.log(error)
+    console.log(error);
   }
 
   return data;
 }
 
 export async function createPayment(payment: PaymentForm) {
-  const { data, error } = await supabase
-    .from(TABLE)
-    .insert(payment)
-    .single();
+  const { data, error } = await supabase.from(TABLE).insert(payment).single();
 
   if (!error) {
     return data;

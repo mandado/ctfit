@@ -5,9 +5,9 @@ import {
   ActionFunction,
 } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
-import SubmitButton from "~/components/Button";
-import { Link } from "~/components/Link";
-import Button from "~/components/SubmitButton";
+import SubmitButton from "~/components/app/Button";
+import { Link } from "~/components/app/Link";
+import Button from "~/components/app/SubmitButton";
 import { Organization } from "~/domain/organizations/schema";
 import { supabase } from "~/models/user.server";
 import {

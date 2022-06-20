@@ -8,3 +8,5 @@ export type Base = {
 export type RequiredFields = {
   organization_id: string;
 };
+
+export type OptionType = { label: string; value: number };

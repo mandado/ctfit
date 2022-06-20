@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { formAction } from "remix-forms";
 import invariant from "tiny-invariant";
-import Form from "~/components/Form";
+import Form from "~/components/app/Form";
 import { Modality, ModalitySchema } from "~/domain/modalities/schema";
 import { updateModality } from "~/domain/modalities/updateModality";
 import { Student, StudentSchema } from "~/domain/students/schema";

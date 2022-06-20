@@ -7,7 +7,7 @@ export async function getStudents({ organization_id }: OrganizationIdParams) {
     .from("students")
     .select(
       `*,     
-      modalities (
+      plan:plan_id(
         id,
         name
       )
@@ -41,6 +41,7 @@ export async function updateStudent(id: string, student: StudentForm) {
     return data;
   }
 
+  console.log(error);
   return { error };
 }
 
@@ -68,12 +69,11 @@ export async function getStudent({
     .from("students")
     .select(
       `*, 
-      modality:modality_id(
-        id, name
-      ),
       plan:plan_id(
         id,
-        name
+        name,
+        price,
+        plans_modalities(modality:modalities(name))
       )
     `
     )
@@ -91,13 +91,7 @@ export async function getStudent({
 export async function getStudentById({ id }: Pick<Student, "id">) {
   const { data, error } = await supabase
     .from("students")
-    .select(
-      `*, 
-      modality:modalities (
-        id, name
-      )
-    `
-    )
+    .select(`*`)
     .eq("id", id)
     .single();
 

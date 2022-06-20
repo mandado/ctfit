@@ -1,6 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
 import { formAction } from "remix-forms";
-import Form from "~/components/Form";
+import Form from "~/components/app/Form";
 import { createNewModality } from "~/domain/modalities/createModality";
 import { ModalitySchema } from "~/domain/modalities/schema";
 import { requireOrganizationId, requireUserId } from "~/session.server";

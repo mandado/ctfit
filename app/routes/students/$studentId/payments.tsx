@@ -13,11 +13,7 @@ import {
   getStudentPayments,
 } from "~/models/students_payments.server";
 import { requireOrganizationId } from "~/session.server";
-import {
-  formatAsDateComplete,
-  formatAsMonth,
-  formatAsMonthYear,
-} from "~/shared/format";
+import { formatAsDateComplete, formatAsMonthYear } from "~/shared/format";
 
 const dates = [
   [0, "Janeiro"],
@@ -49,6 +45,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     organization_id: organizationId,
     paid_at: format(paidDate, "yyyy-MM-dd HH:mm:ss"),
     plan_id: String(form.get("plan_id")),
+    price: Number(form.get("price")),
   });
 
   return null;
@@ -84,12 +81,13 @@ export default function NewStudentPage() {
   const data = useLoaderData() as LoaderData;
   const submit = useSubmit();
 
-  const months = new Map<string, string>(
+  const months = new Map<string, { date: string; price: number }>(
     data.payments.map((payment) => {
       const date = payment.paid_at as string;
+      const price = payment.price as number;
       const month = formatAsMonthYear(date);
 
-      return [month, date];
+      return [month, { date, price }];
     })
   );
 
@@ -97,11 +95,15 @@ export default function NewStudentPage() {
     submit(event.currentTarget, { replace: true });
   const isOnMonth = (month: number) => months.has(getKey(month));
   const formatDate = (month: number) => {
-    const monthDate = months.get(getKey(month)) as string;
+    const monthData = months.get(getKey(month));
 
-    return isOnMonth(month)
-      ? `Pago em: ${formatAsDateComplete(monthDate)}`
-      : "-";
+    if (!monthData || !isOnMonth(month)) {
+      return "-";
+    }
+
+    const { date, price } = monthData;
+
+    return `Pago em: ${formatAsDateComplete(date)} - R$ ${price}`;
   };
 
   return (
@@ -119,8 +121,12 @@ export default function NewStudentPage() {
               name="plan_id"
               defaultValue={data.student.plan_id}
             />
+            <input
+              type="hidden"
+              name="price"
+              defaultValue={data.student.plan?.price}
+            />
             {dates.map(([month, name], index) => {
-              console.log(String(month));
               return (
                 <div className="relative flex items-start" key={index}>
                   <div className="flex h-5 items-center">

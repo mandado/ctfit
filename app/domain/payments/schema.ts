@@ -8,8 +8,9 @@ import { Plan } from "../plans/schema";
 export const PaymentSchema = z.object({
   student_id: z.string().min(1, "Preencha o aluno"),
   plan_id: z.string().min(1, "Preencha o plano"),
-  organization_id: z.string().min(1,  "Preencha a organização"),
-  paid_at: z.string().min(1, 'Preencha a data do pagamento'),
+  price: z.number().min(1, "Preencha o valor a ser pago"),
+  organization_id: z.string().min(1, "Preencha a organização"),
+  paid_at: z.string().min(1, "Preencha a data do pagamento"),
 });
 
 type Relations = {

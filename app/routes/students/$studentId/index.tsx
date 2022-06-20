@@ -22,11 +22,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     organization_id: organizationId,
     id: params.studentId,
   });
+  console.log(JSON.stringify(student));
   if (!student) {
     throw new Response("Not Found", { status: 404 });
   }
-
-  console.log(student);
 
   return json({ student });
 };
@@ -45,6 +44,10 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export default function NoteDetailsPage() {
   const { student } = useLoaderData() as LoaderData;
+
+  const modalities = student.plan?.plans_modalities?.map(
+    (item) => item.modality.name
+  );
 
   return (
     <>
@@ -73,7 +76,9 @@ export default function NoteDetailsPage() {
             <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
               <div className="flex">
                 <div className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32">
-                  <Avvvatars value={student.email} size={128} />
+                  {student.email && (
+                    <Avvvatars value={student.email} size={128} />
+                  )}
                 </div>
               </div>
               <div className="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
@@ -83,16 +88,18 @@ export default function NoteDetailsPage() {
                   </h1>
                 </div>
                 <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                  <button
-                    onClick={() =>
-                      copyTextToClipboard(
-                        `${window.location.origin}/students/${student.id}/fill`
-                      )
-                    }
-                    className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
-                  >
-                    compartilhar
-                  </button>
+                  {student.filled_at && (
+                    <button
+                      onClick={() =>
+                        copyTextToClipboard(
+                          `${window.location.origin}/students/${student.id}/fill`
+                        )
+                      }
+                      className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                    >
+                      compartilhar
+                    </button>
+                  )}
                   <Link
                     to={`/students/${student.id}/edit`}
                     className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
@@ -165,9 +172,9 @@ export default function NoteDetailsPage() {
               </dd>
             </div>
             <div className="sm:col-span-1">
-              <dt className="text-sm font-medium text-gray-500">Modalidade</dt>
+              <dt className="text-sm font-medium text-gray-500">Modalidades</dt>
               <dd className="mt-1 text-sm text-gray-900">
-                {student.modality?.name}
+                {modalities?.join(",")}
               </dd>
             </div>
             <div className="sm:col-span-1">

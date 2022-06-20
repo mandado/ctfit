@@ -5,10 +5,10 @@ import Default from "~/layout/Default";
 import { requireOrganizationId } from "~/session.server";
 
 import { Student } from "~/domain/students/schema";
-import Shell from "~/components/Shell";
-import ShellListItem from "~/components/ShellListItem";
+import Shell from "~/components/app/Shell";
+import ShellListItem from "~/components/app/ShellListItem";
 import { Plan } from "~/domain/plans/schema";
-import { getPlans } from "~/models/plan.server";
+import { getPlans } from "~/domain/plans/plan.server";
 
 type LoaderData = {
   plans: Plan[];

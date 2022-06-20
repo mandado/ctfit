@@ -3,16 +3,16 @@ import { json } from "@remix-run/node";
 import { useFormAction, useLoaderData } from "@remix-run/react";
 import { formAction } from "remix-forms";
 import invariant from "tiny-invariant";
-import Form from "~/components/Form";
+import Form from "~/components/app/Form";
 import { Modality } from "~/domain/modalities/schema";
 import { Plan } from "~/domain/plans/schema";
 import { Student, StudentSchema } from "~/domain/students/schema";
 import { updateStudent } from "~/domain/students/updateStudent";
 import { getModalities } from "~/models/modality.server";
-import { getPlans } from "~/models/plan.server";
+import { getPlans } from "~/domain/plans/plan.server";
 import { getStudent } from "~/models/student.server";
 import { requireOrganizationId } from "~/session.server";
-import { toSelectOptions } from "~/shared/helpers";
+import { toHTMLSelectOptions, toSelectOptions } from "~/shared/helpers";
 
 export const action: ActionFunction = async ({ request, params }) => {
   const { organizationId } = await requireOrganizationId(request);
@@ -29,7 +29,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 type LoaderData = {
   modalities: Modality[];
   student: Student;
-  plans: Plan[]
+  plans: Plan[];
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -62,12 +62,10 @@ export default function NewStudentPage() {
         schema={StudentSchema}
         values={data.student}
         labels={{
-          modality_id: "Modalidade",
           plan_id: "Plano",
         }}
         options={{
-          modality_id: toSelectOptions(data.modalities),
-          plan_id: toSelectOptions(data.plans),
+          plan_id: toHTMLSelectOptions(data.plans),
         }}
       />
     </div>

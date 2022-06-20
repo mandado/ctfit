@@ -5,11 +5,19 @@ export const cx = (...args: unknown[]) =>
 
 export const toSelectOptions = (data: unknown[]) => {
   const transformCollection = data.map((item: any) => ({
+    label: item.name,
+    value: item.id,
+  }));
+
+  return transformCollection;
+};
+export const toHTMLSelectOptions = (data: unknown[]) => {
+  const transformCollection = data.map((item: any) => ({
     name: item.name,
     value: item.id,
   }));
 
-  return [{ name: "Selecione uma opção", value: "" }, ...transformCollection];
+  return transformCollection;
 };
 
 export async function copyTextToClipboard(text: string) {

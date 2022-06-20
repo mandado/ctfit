@@ -1,6 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
 import { formAction } from "remix-forms";
-import Form from "~/components/Form";
+import Form from "~/components/app/Form";
 import { createNewOrganization } from "~/domain/organizations/createOrganization";
 import { OrganizationSchema } from "~/domain/organizations/schema";
 import { requireUserId } from "~/session.server";

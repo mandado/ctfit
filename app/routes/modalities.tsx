@@ -5,8 +5,8 @@ import Default from "~/layout/Default";
 import { requireOrganizationId } from "~/session.server";
 
 import { Student } from "~/domain/students/schema";
-import Shell from "~/components/Shell";
-import ShellListItem from "~/components/ShellListItem";
+import Shell from "~/components/app/Shell";
+import ShellListItem from "~/components/app/ShellListItem";
 import { Modality } from "~/domain/modalities/schema";
 import { getModalities } from "~/models/modality.server";
 
