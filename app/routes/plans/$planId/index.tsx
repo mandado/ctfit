@@ -29,8 +29,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const { organizationId } = await requireOrganizationId(request);
   invariant(params.planId, "planId not found");
+  const { organizationId } = await requireOrganizationId(request);
 
   await deletePlan({
     organization_id: organizationId,
@@ -42,8 +42,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export default function PlanDetailsPage() {
   const { plan } = useLoaderData() as LoaderData;
-
-  console.log(plan);
 
   return (
     <div>

@@ -22,7 +22,5 @@ type Relations = {
   plan?: Plan;
 };
 
-export type StudentForm = Partial<z.infer<typeof StudentSchema>> & {
-  filled_at?: Date;
-};
+export type StudentForm = Partial<z.infer<typeof StudentSchema>>;
 export type Student = Merge<Merge<StudentForm, Base>, Relations>;

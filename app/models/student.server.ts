@@ -28,6 +28,7 @@ export async function createStudent(student: StudentForm) {
     return data;
   }
 
+  console.log(error);
   return null;
 }
 export async function updateStudent(id: string, student: StudentForm) {

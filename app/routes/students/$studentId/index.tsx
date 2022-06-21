@@ -22,7 +22,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     organization_id: organizationId,
     id: params.studentId,
   });
-  console.log(JSON.stringify(student));
   if (!student) {
     throw new Response("Not Found", { status: 404 });
   }
@@ -88,7 +87,7 @@ export default function NoteDetailsPage() {
                   </h1>
                 </div>
                 <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                  {student.filled_at && (
+                  {!student.filled_at && (
                     <button
                       onClick={() =>
                         copyTextToClipboard(

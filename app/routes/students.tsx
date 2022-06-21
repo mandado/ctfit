@@ -18,12 +18,13 @@ export const action: ActionFunction = async ({ request }) => {
 
   await createStudent({
     organization_id: organizationId,
-    document_number: "",
+    document_number: null,
     email: "",
     graduation: "",
     name: "",
     phone: "",
     weight: 0,
+    filled_at: undefined,
   });
   return redirect(`/students`);
 };

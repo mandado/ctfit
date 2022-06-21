@@ -9,6 +9,8 @@ import { createUserSession, getUserId } from "~/session.server";
 import { createUser, getProfileByEmail } from "~/models/user.server";
 import { validateEmail } from "~/utils";
 import * as React from "react";
+import { CheckCircleIcon } from "@heroicons/react/outline";
+import SuccessMessageJoin from "~/components/join/SuccessMessage";
 
 export const meta: MetaFunction = () => {
   return {
@@ -21,6 +23,7 @@ interface ActionData {
     email?: string;
     password?: string;
   };
+  message?: string;
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -69,14 +72,12 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  const user = await createUser(email, password);
+  await createUser(email, password);
 
-  return createUserSession({
-    request,
-    userId: user.id,
-    remember: false,
-    redirectTo: typeof redirectTo === "string" ? redirectTo : "/",
-  });
+  return {
+    message:
+      "Você receberá um link no seu email, após confirmar a conta você conseguirá fazer login.",
+  };
 };
 
 export default function Join() {
@@ -100,6 +101,9 @@ export default function Join() {
   return (
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
+        {actionData?.message && (
+          <SuccessMessageJoin>{actionData?.message}</SuccessMessageJoin>
+        )}
         <Form className="space-y-6" method="post" noValidate>
           <div>
             <label className="text-sm font-medium" htmlFor="email">

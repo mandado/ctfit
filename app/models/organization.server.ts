@@ -29,18 +29,36 @@ export async function getNoteListItems({ userId }: { userId: User["id"] }) {
 export async function getOrganizationById(id: string) {
   const { data, error } = await supabase
     .from("organizations")
-    .select("name, id")
+    .select("name, id, slug")
     .eq("id", id)
     .single();
 
   if (error) return null;
+  if (data) return data;
+}
+
+export async function getOrganizationBySlug(slug: string) {
+  const { data, error } = await supabase
+    .from("organizations")
+    .select("name, id, slug")
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    console.log(error);
+    return null;
+  }
   if (data) return { id: data.id, name: data.name };
 }
 
-export async function createOrganization({ name, user_id }: OrganizationForm) {
+export async function createOrganization({
+  name,
+  slug,
+  user_id,
+}: OrganizationForm) {
   const { data, error } = await supabase
     .from("organizations")
-    .insert({ name })
+    .insert({ name, slug })
     .single();
 
   if (!error) {
@@ -61,9 +79,9 @@ export async function removeOrganization({
 }: Pick<Organization, "id"> & { user_id: User["id"] }) {
   const { data: organizationMember, error: organizationError } = await supabase
     .from("members")
-    .select("organization_id")
+    .select("owner")
     .eq("user_id", user_id)
-    .eq("organization_id", user_id)
+    .eq("organization_id", id)
     .single();
 
   if (organizationError) {
@@ -76,15 +94,19 @@ export async function removeOrganization({
     return null;
   }
 
+  if (organizationMember.owner === false) {
+    throw new Error("only owners can remove the organization");
+  }
+
   const { error } = await supabase
-    .from("organization")
+    .from("organizations")
     .delete({ returning: "minimal" })
     .match({ id });
 
   if (!error) {
-    console.log(error);
     return {};
   }
 
+  console.log(error);
   return null;
 }

@@ -87,7 +87,7 @@ export async function requireOrganizationId(
   const organizationId = await getOrganizationId(request);
   if (!organizationId && !redirectTo.includes("organization")) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    throw redirect(`/organizations?${searchParams}`);
+    throw redirect(`/org?${searchParams}`);
   }
 
   return { organizationId, userId };
@@ -150,9 +150,22 @@ export async function createOrganizationSession({
   });
 }
 
-export async function logout(request: Request) {
+export async function logout(request: Request, redirectPath = "/") {
   const session = await getSession(request);
-  return redirect("/", {
+  return redirect(redirectPath, {
+    headers: {
+      "Set-Cookie": await sessionStorage.destroySession(session),
+    },
+  });
+}
+
+export async function clearOrganizationSection(
+  request: Request,
+  redirectPath = "/org"
+) {
+  const session = await getSession(request);
+  session.unset(ORGANIZATION_SESSION_KEY);
+  return redirect(redirectPath, {
     headers: {
       "Set-Cookie": await sessionStorage.destroySession(session),
     },

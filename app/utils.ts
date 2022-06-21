@@ -47,7 +47,9 @@ export function useUser(): Pick<User, "id" | "email"> | never {
   return maybeUser;
 }
 
-export function useOrganization(): Pick<Organization, "id" | "name"> | never {
+export function useOrganization():
+  | Pick<Organization, "id" | "name" | "slug">
+  | never {
   const maybeOrganization = useOptionalOrganization();
   if (!maybeOrganization) {
     throw new Error(

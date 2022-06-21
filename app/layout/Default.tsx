@@ -1,14 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  CalendarIcon,
   CogIcon,
   HomeIcon,
-  MapIcon,
   MenuIcon,
   SearchCircleIcon,
-  SpeakerphoneIcon,
   UserGroupIcon,
-  ViewGridAddIcon,
   XIcon,
 } from "@heroicons/react/outline";
 import { Form, Link, NavLink } from "@remix-run/react";
@@ -17,6 +13,7 @@ import { cx } from "~/shared/helpers";
 import { useOrganization, useUser } from "~/utils";
 
 const navigation = [
+  { name: "Início", href: "/", icon: HomeIcon },
   { name: "Alunos", href: "/students", icon: UserGroupIcon },
   {
     name: "Modalidades",
@@ -30,7 +27,8 @@ const navigation = [
   },
 ];
 const secondaryNavigation = [
-  { name: "Organizações", href: "/organizations", icon: CogIcon },
+  { name: "Organizações", href: "/org", icon: CogIcon },
+  { name: "Configurações", href: "/settings", icon: CogIcon },
 ];
 
 export default function Default({ children }: { children: ReactNode }) {

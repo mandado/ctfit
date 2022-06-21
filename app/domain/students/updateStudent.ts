@@ -13,10 +13,6 @@ export const updateStudent = (id: string, filled_at?: Date) =>
       organization_id: env.organization_id,
     } as StudentForm;
 
-    if (filled_at) {
-      payload.filled_at = filled_at;
-    }
-
     const result = await updateStudentData(id, payload);
 
     if (result?.error?.message?.includes("unique_document_number_user")) {
