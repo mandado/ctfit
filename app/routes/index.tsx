@@ -64,7 +64,7 @@ export default function Dashboard() {
   const fetcher = useFetcher();
   const data = useLoaderData() as LoaderData;
 
-  const isPopulated = organization?.configurations?.populated_modalities || fetcher.data.error === false;
+  const isPopulated = organization?.configurations?.populated_modalities || fetcher.data?.error === false;
 
   const setupModalities = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -79,10 +79,10 @@ export default function Dashboard() {
     <Default>
       <div className="flex h-full w-full items-center justify-center bg-gray-50">
         <div className="flex w-7/12 flex-col items-center">
-          <h4 className="mb-14 text-3xl font-bold text-gray-700">
+          <h4 className="mb-4 text-3xl font-bold text-gray-700">
             Dicas para começar
           </h4>
-          <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-3 sm:gap-px sm:divide-y-0">
+          <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-1 sm:gap-px sm:divide-y-0">
             {actions.map((action, actionIdx) => (
               <div
                 key={action.title}
@@ -90,8 +90,6 @@ export default function Dashboard() {
                   actionIdx === 0
                     ? "rounded-tl-lg rounded-tr-lg sm:rounded-tr-none"
                     : "",
-                  actionIdx === 2 ? "sm:rounded-tr-lg" : "",
-                  actionIdx === actions.length - 3 ? "sm:rounded-bl-lg" : "",
                   actionIdx === actions.length - 1
                     ? "rounded-bl-lg rounded-br-lg sm:rounded-bl-none"
                     : "",
@@ -130,7 +128,7 @@ export default function Dashboard() {
                     {action.key === "modality" && !isPopulated && (
                       <Button
                         disabled={fetcher.state === "loading"}
-                        className="mt-10 w-full"
+                        className="mt-2 w-full"
                         onClick={setupModalities}
                       >
                         Setup Modalidades
