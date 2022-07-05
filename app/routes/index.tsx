@@ -1,6 +1,13 @@
 import { AcademicCapIcon, CashIcon, UsersIcon } from "@heroicons/react/outline";
 import { json, LoaderFunction } from "@remix-run/node";
-import { Link, useHref, useLoaderData, useLocation } from "@remix-run/react";
+import {
+  Link,
+  useFetcher,
+  useHref,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
+import { MouseEvent } from "react";
 import Button from "~/components/app/SubmitButton";
 import CopyUrl from "~/components/home/CopyUrl";
 import { Organization } from "~/domain/organizations/schema";
@@ -51,9 +58,22 @@ export const loader: LoaderFunction = async ({ request }) => {
   };
 };
 
+// Hide button setup if setuped
 export default function Dashboard() {
   const organization = useOrganization();
+  const fetcher = useFetcher();
   const data = useLoaderData() as LoaderData;
+
+  const isPopulated = organization?.configurations?.populated_modalities || fetcher.data.error === false;
+
+  const setupModalities = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+    fetcher.submit(
+      { some: "values" },
+      { method: "post", action: "/modalities/setup" }
+    );
+  };
 
   return (
     <Default>
@@ -106,14 +126,22 @@ export default function Dashboard() {
                     dangerouslySetInnerHTML={{ __html: action.text }}
                   />
 
-                  {action.key === "modality" && (
-                    <Button className="mt-10 w-full">Setup Modalidades</Button>
-                  )}
-                  {action.key === "students" && (
-                    <CopyUrl
-                      text={`${data.origin}/org/${organization.slug}/new-student`}
-                    />
-                  )}
+                  <div className="relative">
+                    {action.key === "modality" && !isPopulated && (
+                      <Button
+                        disabled={fetcher.state === "loading"}
+                        className="mt-10 w-full"
+                        onClick={setupModalities}
+                      >
+                        Setup Modalidades
+                      </Button>
+                    )}
+                    {action.key === "students" && (
+                      <CopyUrl
+                        text={`${data.origin}/org/${organization.slug}/new-student`}
+                      />
+                    )}
+                  </div>
                 </div>
                 <span
                   className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"

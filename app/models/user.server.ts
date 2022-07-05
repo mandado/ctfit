@@ -20,10 +20,15 @@ invariant(
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function createUser(email: string, password: string) {
-  const { user } = await supabase.auth.signUp({
+  const { user, error } = await supabase.auth.signUp({
     email,
     password,
   });
+
+  if (error) {
+    console.log(error)
+    throw new Error('Error on signup')
+  }
 
   if (user) {
     const { error } = await supabase

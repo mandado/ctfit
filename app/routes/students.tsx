@@ -18,13 +18,11 @@ export const action: ActionFunction = async ({ request }) => {
 
   await createStudent({
     organization_id: organizationId,
-    document_number: null,
     email: "",
     graduation: "",
     name: "",
     phone: "",
     weight: 0,
-    filled_at: undefined,
   });
   return redirect(`/students`);
 };
@@ -33,6 +31,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (new URL(request.url).pathname.includes("fill")) {
     return json({});
   }
+  
   const { organizationId } = await requireOrganizationId(request);
 
   const students = await getStudents({ organization_id: organizationId });

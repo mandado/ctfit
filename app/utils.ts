@@ -48,7 +48,7 @@ export function useUser(): Pick<User, "id" | "email"> | never {
 }
 
 export function useOrganization():
-  | Pick<Organization, "id" | "name" | "slug">
+  | Pick<Organization, "id" | "name" | "slug" | "configurations">
   | never {
   const maybeOrganization = useOptionalOrganization();
   if (!maybeOrganization) {
