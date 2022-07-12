@@ -1,4 +1,8 @@
-import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useCatch, useFormAction, useLoaderData } from "@remix-run/react";
 import { formAction } from "remix-forms";
@@ -24,7 +28,9 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export const meta: MetaFunction = ({ data }) => ({
-  title: data?.organization ? `Cadastro de aluno no ct ${data?.organization?.name}` : 'Página de proibida',
+  title: data?.organization
+    ? `Cadastro de aluno no ct ${data?.organization?.name}`
+    : "Página de proibida",
 });
 
 type LoaderData = {
@@ -40,7 +46,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     throw new Response("Not Found", { status: 404 });
   }
 
-  if (!organization.configurations.enable_signup) {
+  if (!organization.configurations?.enable_signup) {
     throw json({ organization }, 403);
   }
 
@@ -49,14 +55,15 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   return json({ plans, organization });
 };
 
-
 export function CatchBoundary() {
   const caught = useCatch();
 
   if (caught.status === 403) {
     return (
       <div className="text-center">
-        <p>Cadastros de alunos encerrados no ct {caught.data.organization.name}.</p>
+        <p>
+          Cadastros de alunos encerrados no ct {caught.data.organization.name}.
+        </p>
       </div>
     );
   }
@@ -64,7 +71,7 @@ export function CatchBoundary() {
 
 export default function NewStudentPage() {
   const data = useLoaderData() as LoaderData;
-  
+
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
       <div className="w-[400px] rounded-lg bg-white p-6 shadow">
