@@ -64,7 +64,9 @@ export default function Dashboard() {
   const fetcher = useFetcher();
   const data = useLoaderData() as LoaderData;
 
-  const isPopulated = organization?.configurations?.populated_modalities || fetcher.data?.error === false;
+  const isPopulated =
+    organization?.configurations?.populated_modalities ||
+    fetcher.data?.error === false;
 
   const setupModalities = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -82,7 +84,7 @@ export default function Dashboard() {
           <h4 className="mb-4 text-3xl font-bold text-gray-700">
             Dicas para começar
           </h4>
-          <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-1 sm:gap-px sm:divide-y-0">
+          <div className="divide-y divide-gray-200 overflow-y-scroll rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-1 sm:gap-px sm:divide-y-0">
             {actions.map((action, actionIdx) => (
               <div
                 key={action.title}
