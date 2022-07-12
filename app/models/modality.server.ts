@@ -31,7 +31,8 @@ export async function deleteModality({
   const { error } = await supabase
     .from("modalities")
     .delete({ returning: "minimal" })
-    .match({ id, organization_id });
+    .eq("id", id)
+    .eq("organization_id", organization_id);
 
   if (!error) {
     console.log(error);

@@ -56,14 +56,15 @@ export async function updateStudent(id: string, student: StudentForm) {
   return { error };
 }
 
-export async function deleteStudent({
+export async function deleteStudentPayment({
   id,
   organization_id,
 }: Pick<Student, "id"> & OrganizationIdParams) {
   const { error } = await supabase
     .from("students")
     .delete({ returning: "minimal" })
-    .match({ id, organization_id: organization_id });
+    .eq("id", id)
+    .eq("organization_id", organization_id);
 
   if (!error) {
     return {};

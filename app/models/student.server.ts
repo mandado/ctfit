@@ -53,7 +53,8 @@ export async function deleteStudent({
   const { error } = await supabase
     .from("students")
     .delete({ returning: "minimal" })
-    .match({ id, organization_id: organization_id });
+    .eq("id", id)
+    .eq("organization_id", organization_id);
 
   if (!error) {
     return {};

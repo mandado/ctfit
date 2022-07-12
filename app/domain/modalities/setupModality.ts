@@ -13,6 +13,7 @@ export const modalityList = [
   "Muay Thai",
   "Taekwondo",
   "Krav Maga",
+  "Boxe",
 ];
 
 export const setupModalities = makeDomainFunction(
