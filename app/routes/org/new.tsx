@@ -12,7 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
     request,
     schema: OrganizationSchema,
     mutation: createNewOrganization,
-    successPath: "organizations",
+    successPath: "org",
     environment: { user_id: userId },
   });
 };

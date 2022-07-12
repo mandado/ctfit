@@ -1,6 +1,13 @@
 import { AcademicCapIcon, CashIcon, UsersIcon } from "@heroicons/react/outline";
 import { json, LoaderFunction } from "@remix-run/node";
-import { Link, useHref, useLoaderData, useLocation } from "@remix-run/react";
+import {
+  Link,
+  useFetcher,
+  useHref,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
+import { MouseEvent } from "react";
 import Button from "~/components/app/SubmitButton";
 import CopyUrl from "~/components/home/CopyUrl";
 import { Organization } from "~/domain/organizations/schema";
@@ -51,18 +58,31 @@ export const loader: LoaderFunction = async ({ request }) => {
   };
 };
 
+// Hide button setup if setuped
 export default function Dashboard() {
   const organization = useOrganization();
+  const fetcher = useFetcher();
   const data = useLoaderData() as LoaderData;
+
+  const isPopulated = organization?.configurations?.populated_modalities || fetcher.data?.error === false;
+
+  const setupModalities = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+    fetcher.submit(
+      { some: "values" },
+      { method: "post", action: "/modalities/setup" }
+    );
+  };
 
   return (
     <Default>
       <div className="flex h-full w-full items-center justify-center bg-gray-50">
         <div className="flex w-7/12 flex-col items-center">
-          <h4 className="mb-14 text-3xl font-bold text-gray-700">
+          <h4 className="mb-4 text-3xl font-bold text-gray-700">
             Dicas para começar
           </h4>
-          <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-3 sm:gap-px sm:divide-y-0">
+          <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-1 sm:gap-px sm:divide-y-0">
             {actions.map((action, actionIdx) => (
               <div
                 key={action.title}
@@ -70,8 +90,6 @@ export default function Dashboard() {
                   actionIdx === 0
                     ? "rounded-tl-lg rounded-tr-lg sm:rounded-tr-none"
                     : "",
-                  actionIdx === 2 ? "sm:rounded-tr-lg" : "",
-                  actionIdx === actions.length - 3 ? "sm:rounded-bl-lg" : "",
                   actionIdx === actions.length - 1
                     ? "rounded-bl-lg rounded-br-lg sm:rounded-bl-none"
                     : "",
@@ -106,14 +124,22 @@ export default function Dashboard() {
                     dangerouslySetInnerHTML={{ __html: action.text }}
                   />
 
-                  {action.key === "modality" && (
-                    <Button className="mt-10 w-full">Setup Modalidades</Button>
-                  )}
-                  {action.key === "students" && (
-                    <CopyUrl
-                      text={`${data.origin}/org/${organization.slug}/new-student`}
-                    />
-                  )}
+                  <div className="relative">
+                    {action.key === "modality" && !isPopulated && (
+                      <Button
+                        disabled={fetcher.state === "loading"}
+                        className="mt-2 w-full"
+                        onClick={setupModalities}
+                      >
+                        Setup Modalidades
+                      </Button>
+                    )}
+                    {action.key === "students" && (
+                      <CopyUrl
+                        text={`${data.origin}/org/${organization.slug}/new-student`}
+                      />
+                    )}
+                  </div>
                 </div>
                 <span
                   className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"

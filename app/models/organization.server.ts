@@ -26,10 +26,10 @@ export async function getNoteListItems({ userId }: { userId: User["id"] }) {
   return data;
 }
 
-export async function getOrganizationById(id: string) {
+export async function getOrganizationById(id: string): Promise<Organization | null| undefined> {
   const { data, error } = await supabase
     .from("organizations")
-    .select("name, id, slug")
+    .select("name, id, slug, configurations")
     .eq("id", id)
     .single();
 
@@ -37,10 +37,10 @@ export async function getOrganizationById(id: string) {
   if (data) return data;
 }
 
-export async function getOrganizationBySlug(slug: string) {
+export async function getOrganizationBySlug(slug: string): Promise<Organization | null | undefined> {
   const { data, error } = await supabase
     .from("organizations")
-    .select("name, id, slug")
+    .select("name, id, slug, configurations")
     .eq("slug", slug)
     .single();
 
@@ -48,7 +48,7 @@ export async function getOrganizationBySlug(slug: string) {
     console.log(error);
     return null;
   }
-  if (data) return { id: data.id, name: data.name };
+  if (data) return data;
 }
 
 export async function createOrganization({
@@ -105,6 +105,21 @@ export async function removeOrganization({
 
   if (!error) {
     return {};
+  }
+
+  console.log(error);
+  return null;
+}
+
+export async function updateOrganization(id: string, organization: Partial<OrganizationForm>) {
+  const { data, error } = await supabase
+    .from("organizations")
+    .update(organization)
+    .eq("id", id)
+    .single();
+
+  if (!error) {
+    return data;
   }
 
   console.log(error);
