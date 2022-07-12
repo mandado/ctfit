@@ -25,7 +25,15 @@ export default function newOrganizationPage() {
         hiddenFields={["slug", "user_id", "configurations"]}
         schema={OrganizationSchema}
         labels={{ name: "Nome" }}
-      />
+      >
+        {({ Field, Errors, Button }) => (
+          <>
+            <Field name="name" />
+            <Errors />
+            <Button />
+          </>
+        )}
+      </Form>
     </div>
   );
 }
