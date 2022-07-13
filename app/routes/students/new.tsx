@@ -20,6 +20,7 @@ export const action: ActionFunction = async ({ request }) => {
     schema: StudentSchema,
     mutation: createNewStudent,
     environment: { organization_id: organizationId },
+    successPath: "students;",
   });
 };
 
