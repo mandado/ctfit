@@ -31,7 +31,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (new URL(request.url).pathname.includes("fill")) {
     return json({});
   }
-  
+
   const { organizationId } = await requireOrganizationId(request);
 
   const students = await getStudents({ organization_id: organizationId });
@@ -57,20 +57,7 @@ export default function NotesPage() {
         <Outlet />
       </main>
       <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
-        <Shell
-          actions={
-            <>
-              <button
-                type="submit"
-                onClick={generateNewStudentRecord}
-                className="mt-4 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-3 py-1 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
-              >
-                Gerar Cadastro compartilhável
-              </button>
-            </>
-          }
-          title="Alunos"
-        >
+        <Shell title="Alunos">
           <>
             {students.map((student) => (
               <ShellListItem
