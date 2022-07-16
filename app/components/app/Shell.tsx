@@ -5,6 +5,9 @@ import {
 } from "@heroicons/react/outline";
 import { Link, NavLink } from "@remix-run/react";
 import { ReactNode } from "react";
+import { Tooltip } from "../ui/tooltip";
+import Input from "./Input";
+import Button from "./BaseButton";
 
 type ShellProps = {
   title: string;
@@ -18,43 +21,54 @@ export default function Shell({ title, actions, children }: ShellProps) {
       <div className="px-6 pt-6 pb-4">
         <h2 className="text-lg font-medium text-gray-900">{title}</h2>
         <form className="mt-6 flex space-x-4" action="#">
-          <div className="min-w-0 flex-1">
-            <label htmlFor="search" className="sr-only">
-              Search
-            </label>
-            <div className="relative rounded-md shadow-sm">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <SearchIcon
+          <Tooltip label="busca não disponível">
+            <div className="flex space-x-4">
+              <div className="min-w-0 flex-1">
+                <label htmlFor="search" className="sr-only">
+                  Search
+                </label>
+                <div className="relative rounded-md shadow-sm">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <SearchIcon
+                      className="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <Input
+                    type="search"
+                    name="search"
+                    id="search"
+                    className="block w-full rounded-md border-gray-300 pl-10 focus:border-pink-500 focus:ring-pink-500 sm:text-sm"
+                    disabled
+                    placeholder="Search"
+                  />
+                </div>
+              </div>
+              <Button
+                type="submit"
+                disabled
+                className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+              >
+                <FilterIcon
                   className="h-5 w-5 text-gray-400"
                   aria-hidden="true"
                 />
-              </div>
-              <input
-                type="search"
-                name="search"
-                id="search"
-                className="block w-full rounded-md border-gray-300 pl-10 focus:border-pink-500 focus:ring-pink-500 sm:text-sm"
-                placeholder="Search"
-              />
+                <span className="sr-only">Search</span>
+              </Button>
             </div>
-          </div>
-          <button
-            type="submit"
-            className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
-          >
-            <FilterIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            <span className="sr-only">Search</span>
-          </button>
-          <NavLink
-            to="new"
-            className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
-          >
-            <PlusCircleIcon
-              className="h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            />
-            <span className="sr-only">Criar Novo</span>
-          </NavLink>
+          </Tooltip>
+          <Tooltip label="Criar Novo">
+            <NavLink
+              to="new"
+              className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+            >
+              <PlusCircleIcon
+                className="h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
+              <span className="sr-only">Criar Novo</span>
+            </NavLink>
+          </Tooltip>
         </form>
         {actions}
       </div>
