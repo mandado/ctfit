@@ -1,18 +1,17 @@
-import { AcademicCapIcon, CashIcon, UsersIcon } from "@heroicons/react/outline";
-import { json, LoaderFunction } from "@remix-run/node";
 import {
-  Link,
-  useFetcher,
-  useHref,
-  useLoaderData,
-  useLocation,
-} from "@remix-run/react";
+  AcademicCapIcon,
+  CashIcon,
+  InformationCircleIcon,
+  QuestionMarkCircleIcon,
+  UsersIcon,
+} from "@heroicons/react/outline";
+import { LoaderFunction } from "@remix-run/node";
+import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { MouseEvent } from "react";
 import Button from "~/components/app/SubmitButton";
 import CopyUrl from "~/components/home/CopyUrl";
-import { Organization } from "~/domain/organizations/schema";
 import Default from "~/layout/Default";
-import { getOrganization, requireOrganizationId } from "~/session.server";
+import { requireOrganizationId } from "~/session.server";
 import { cx } from "~/shared/helpers";
 import { useOrganization } from "~/utils";
 
@@ -25,6 +24,7 @@ const actions = [
     key: "modality",
     title: "Crie uma modalidade",
     href: "/modalities",
+    textLink: "Ir para página de modalidades",
     text: `Comece criando uma ou mais modalidades ou clique no botão setup para fazer setup de modalidades padrões do sistema.`,
     icon: UsersIcon,
     iconForeground: "text-sky-700",
@@ -33,6 +33,7 @@ const actions = [
   {
     key: "plan",
     title: "Crie um plano",
+    textLink: "Ir para página de planos",
     href: "/plans",
     text: `Crie planos que serão usados pelos alunos ao criar conta. <br /> você pode criar plano como pacote, adicionando mais de uma modalidade.`,
     icon: CashIcon,
@@ -42,6 +43,7 @@ const actions = [
   {
     key: "students",
     title: "Cadastre um aluno",
+    textLink: "Ir para página de alunos",
     href: "/students",
     text: "Cadastre um aluno ou copie a url compartilhável abaixo e envie para um aluno.",
     icon: AcademicCapIcon,
@@ -58,8 +60,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   };
 };
 
-// Hide button setup if setuped
-export default function Dashboard() {
+export default function Index() {
   const organization = useOrganization();
   const fetcher = useFetcher();
   const data = useLoaderData() as LoaderData;
@@ -79,87 +80,80 @@ export default function Dashboard() {
 
   return (
     <Default>
-      <div className="flex h-full w-full items-center justify-center bg-gray-50">
-        <div className="flex w-7/12 flex-col items-center">
-          <h4 className="mb-4 text-3xl font-bold text-gray-700">
-            Dicas para começar
-          </h4>
-          <div className="divide-y divide-gray-200 overflow-y-scroll rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-1 sm:gap-px sm:divide-y-0">
-            {actions.map((action, actionIdx) => (
-              <div
-                key={action.title}
-                className={cx(
-                  actionIdx === 0
-                    ? "rounded-tl-lg rounded-tr-lg sm:rounded-tr-none"
-                    : "",
-                  actionIdx === actions.length - 1
-                    ? "rounded-bl-lg rounded-br-lg sm:rounded-bl-none"
-                    : "",
-                  "group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
-                )}
-              >
-                <div>
-                  <span
-                    className={cx(
-                      action.iconBackground,
-                      action.iconForeground,
-                      "inline-flex rounded-lg p-3 ring-4 ring-white"
-                    )}
-                  >
-                    <action.icon className="h-6 w-6" aria-hidden="true" />
-                  </span>
-                </div>
-                <div className="mt-8">
-                  <h3 className="text-lg font-medium">
-                    <Link
-                      prefetch="intent"
-                      to={action.href}
-                      className="focus:outline-none"
-                    >
-                      {/* Extend touch target to entire panel */}
-                      <span className="absolute inset-0" aria-hidden="true" />
-                      {action.title}
-                    </Link>
-                  </h3>
-                  <p
-                    className="mt-2 text-sm text-gray-500"
-                    dangerouslySetInnerHTML={{ __html: action.text }}
-                  />
-
-                  <div className="relative">
-                    {action.key === "modality" && !isPopulated && (
-                      <Button
-                        disabled={fetcher.state === "loading"}
-                        className="mt-2 w-full"
-                        onClick={setupModalities}
+      <div className="h-full w-full space-y-6 overflow-y-auto bg-gray-50 p-6">
+        {actions.map((action, actionIdx) => (
+          <section className="overflow-hidden rounded-lg bg-white shadow">
+            <h4 className="flex gap-2 bg-indigo-50 p-4 text-xl font-semibold text-indigo-800">
+              <QuestionMarkCircleIcon width="22" className="text-current" />
+              {action.title}
+            </h4>
+            <p
+              className="mt-2 p-4 text-sm text-gray-800"
+              dangerouslySetInnerHTML={{ __html: action.text }}
+            />
+            {action.key === "students" && (
+              <div className=" bg-blue-50 p-4">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <InformationCircleIcon
+                      className="h-5 w-5 text-blue-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div className="ml-3 flex-1 md:flex md:justify-between">
+                    <p className="text-sm text-blue-700">
+                      Lembre-se de ativar em{" "}
+                      <span className="font-bold">configurações</span> a opção{" "}
+                      <span className="font-bold">cadastro de alunos</span> para
+                      permitir cadastros no seu ct.
+                    </p>
+                    <p className="mt-3 text-sm md:mt-0 md:ml-6">
+                      <Link
+                        prefetch="intent"
+                        to={action.href}
+                        className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600"
                       >
-                        Setup Modalidades
-                      </Button>
-                    )}
-                    {action.key === "students" && (
-                      <CopyUrl
-                        text={`${data.origin}/org/${organization.slug}/new-student`}
-                      />
-                    )}
+                        Ir para configurações{" "}
+                        <span aria-hidden="true">&rarr;</span>
+                      </Link>
+                    </p>
                   </div>
                 </div>
-                <span
-                  className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
-                  aria-hidden="true"
-                >
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-                  </svg>
-                </span>
               </div>
-            ))}
-          </div>
-        </div>
+            )}
+            <footer className="p-y divide-y divide-gray-200">
+              <div
+                className={cx(
+                  (action.key === "modality" || action.key === "students") && "p-4"
+                )}
+              >
+                {action.key === "modality" && !isPopulated && (
+                  <Button
+                    disabled={fetcher.state === "loading"}
+                    className="w-full"
+                    onClick={setupModalities}
+                  >
+                    Setup Modalidades
+                  </Button>
+                )}
+                {action.key === "students" && (
+                  <CopyUrl
+                    text={`${data.origin}/org/${organization.slug}/new-student`}
+                  />
+                )}
+              </div>
+              <div className="flex p-4">
+                <Link
+                  prefetch="intent"
+                  to={action.href}
+                  className="tefocus:outline-none text-base font-medium text-indigo-400"
+                >
+                  {action.textLink}
+                </Link>
+              </div>
+            </footer>
+          </section>
+        ))}
       </div>
     </Default>
   );

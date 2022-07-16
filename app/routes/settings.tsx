@@ -50,7 +50,7 @@ export default function Configurations() {
                 name="comments"
                 type="checkbox"
                 onChange={toggleSignup}
-                defaultChecked={organization?.configurations.enable_signup}
+                defaultChecked={organization?.configurations?.enable_signup}
                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />
             </div>

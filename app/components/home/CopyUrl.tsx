@@ -6,7 +6,7 @@ export default function CopyUrl({ text }: { text: string }) {
   const [isCopied, setCopied] = useClipboard(text);
 
   return (
-    <div className="mt-10 flex rounded-md shadow-sm">
+    <div className="flex rounded-md shadow-sm">
       <div className="relative flex flex-grow items-stretch focus-within:z-10">
         <input
           defaultValue={text}
