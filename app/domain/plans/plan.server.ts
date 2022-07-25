@@ -7,7 +7,7 @@ const TABLE = "plans";
 export async function getPlans({ organization_id }: OrganizationIdParams) {
   const { data } = await supabase
     .from(TABLE)
-    .select("id,name")
+    .select("id,name,price,shift,plans_modalities(modality:modalities(id, name))")
     .eq("organization_id", organization_id);
 
   return data;

@@ -14,6 +14,17 @@ export function useMatchesData(id: string) {
   return route?.data;
 }
 
+export function useIsMatchingRoute(id: string) {
+  const matchingRoutes = useMatches();
+
+  const route = useMemo(
+    () => matchingRoutes.find((route) => route.id === id),
+    [matchingRoutes, id]
+  );
+
+  return route;
+}
+
 export function isUser(user: User) {
   return user && typeof user === "object";
 }

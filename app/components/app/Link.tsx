@@ -1,6 +1,8 @@
-import { Link, LinkProps } from "@remix-run/react";
+import { Link, LinkProps as LinkPropsRemix } from "@remix-run/react";
 import { forwardRef } from "react";
+import { Merge } from "type-fest";
 import { cx } from "~/shared/helpers";
+import { button, ButtonProps } from "../ui/button/style";
 
 export type BaseButtonProps = JSX.IntrinsicElements["a"];
 export function isExternalUrl(str: string) {
@@ -9,13 +11,15 @@ export function isExternalUrl(str: string) {
   );
 }
 
+type LinkProps = Merge<ButtonProps, LinkPropsRemix>;
+
 const CustomLink = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ to, className, ...props }, ref) => {
-    const classes = cx(
-      "inline-flex items-center justify-center rounded-md border border-transparent px-6 py-2 text-base font-medium shadow-sm ring-2 ring-transparent ring-offset-2 ring-offset-transparent focus:outline-none disabled:bg-gray-400",
-      " text-indigo-700 bg-indigo-100 hover:bg-indigo-200",
-      className
-    );
+  ({ to, variant, size, className, ...props }, ref) => {
+    const classes = button({
+      class: className,
+      variant,
+      size,
+    });
 
     if (typeof to === "string" && isExternalUrl(to)) {
       const { replace, state, ...domProps } = props;

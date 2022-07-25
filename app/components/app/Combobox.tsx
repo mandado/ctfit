@@ -2,7 +2,7 @@ import type { GroupBase, Props } from "react-select";
 import Select from "react-select";
 import { errorMessagesFor } from "remix-domains";
 import Label from "./Label";
-import Error from "~/components/app/Error";
+import { Error } from "~/components/ui/error/index";
 
 type CustomProps = { label: string; error?: string[] };
 
@@ -27,7 +27,7 @@ function ComboBox<
           }),
         }}
       />
-      {props.error && <Error>{props.error}</Error>}
+      {props.error && <Error>{props.error[0]}</Error>}
     </>
   );
 }

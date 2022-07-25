@@ -17,9 +17,9 @@ export const action: ActionFunction = async ({ request }) => {
   });
 };
 
-export default function newOrganizationPage() {
+export default function NewOrganizationPage() {
   return (
-    <div className="rounded-xl border bg-gray-50 p-6">
+    <div className="rounded-xl max-w-sm w-full border bg-gray-50 p-6">
       <h2 className="mb-4 pb-4 text-2xl">Dê um nome para o seu ct</h2>
       <Form
         hiddenFields={["slug", "user_id", "configurations"]}

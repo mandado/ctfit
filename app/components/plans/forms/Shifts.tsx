@@ -1,11 +1,7 @@
 import { FormEvent, useState } from "react";
-import type { UseFormRegister } from "react-hook-form";
 import { errorMessagesFor } from "remix-domains";
-import Error from "~/components/app/Error";
-import { PlanForm } from "~/domain/plans/schema";
+import { Error, Input, Label } from "~/components/ui";
 import { ErrorsSchema } from "~/types/common/form";
-import Input from "../../app/Input";
-import Label from "../../app/Label";
 import Info from "./Info";
 
 export const SHIFTS = new Map([

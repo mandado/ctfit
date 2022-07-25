@@ -1787,6 +1787,18 @@
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
+"@tanstack/react-table@^8.3.3":
+  version "8.3.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.3.3.tgz#bcad6e4ec8e34c96ec50c9d7df14190042fc54ce"
+  integrity sha512-Zvp40XmxJgage/GKzqQVH38gVRtF5rmLV7WIWE4WZUtKsZgPhU3ZUt7ijc2Nyej8v/KGkF4ja8FA/UITevZA4A==
+  dependencies:
+    "@tanstack/table-core" "8.3.3"
+
+"@tanstack/table-core@8.3.3":
+  version "8.3.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.3.3.tgz#c01103ffd7cdc070f470c79b2c14401c7d7ca5ae"
+  integrity sha512-Y9lVatqOsQaQBmoKynWIkThC9MN+z4RCP8hSyGPlxI4K1MINFUBswpi3mEg157g0Q9UOXtmt13s7wnoHHfe+2Q==
+
 "@testing-library/cypress@^8.0.2":
   version "8.0.3"
   resolved "https://registry.yarnpkg.com/@testing-library/cypress/-/cypress-8.0.3.tgz#24ab34df34d7896866603ade705afbdd186e273c"
@@ -1808,6 +1820,29 @@
     dom-accessibility-api "^0.5.9"
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
+
+"@testing-library/dom@^8.5.0":
+  version "8.16.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.16.0.tgz#d6fc50250aed17b1035ca1bd64655e342db3936a"
+  integrity sha512-uxF4zmnLHHDlmW4l+0WDjcgLVwCvH+OVLpD8Dfp+Bjfz85prwxWGbwXgJdLtkgjD0qfOzkJF9SmA6YZPsMYX4w==
+  dependencies:
+    "@babel/code-frame" "^7.10.4"
+    "@babel/runtime" "^7.12.5"
+    "@types/aria-query" "^4.2.0"
+    aria-query "^5.0.0"
+    chalk "^4.1.0"
+    dom-accessibility-api "^0.5.9"
+    lz-string "^1.4.4"
+    pretty-format "^27.0.2"
+
+"@testing-library/react@^13.3.0":
+  version "13.3.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/react/-/react-13.3.0.tgz#bf298bfbc5589326bbcc8052b211f3bb097a97c5"
+  integrity sha512-DB79aA426+deFgGSjnf5grczDPiL4taK3hFaa+M5q7q20Kcve9eQottOG5kZ74KEr55v0tU2CQormSSDK87zYQ==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "@testing-library/dom" "^8.5.0"
+    "@types/react-dom" "^18.0.0"
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
@@ -2080,6 +2115,13 @@
   integrity sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==
   dependencies:
     "@types/react" "^17"
+
+"@types/react-dom@^18.0.0":
+  version "18.0.6"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.6.tgz#36652900024842b74607a17786b6662dd1e103a1"
+  integrity sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-select@^5.0.1":
   version "5.0.1"
@@ -3423,6 +3465,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+class-variance-authority@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/class-variance-authority/-/class-variance-authority-0.2.3.tgz#5559761fee5fe5e0e9ccd5137bab5efc25bc6f82"
+  integrity sha512-q3VGDidOOFp5yqNpUljA8L6N78gdOPhP5oeFJPaGRnCAPRmyAw65qo+Kw2WVfKq9uiR1de7HzlcvTN871Gks/g==
 
 clean-deep@^3.0.2:
   version "3.4.0"

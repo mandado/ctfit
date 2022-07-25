@@ -25,24 +25,8 @@ export default function NotesPage() {
   const { plans } = useLoaderData() as LoaderData;
 
   return (
-    <Default>
-      <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
-        <Outlet />
-      </main>
-      <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
-        <Shell title="Planos">
-          <>
-            {plans.map((Plan) => (
-              <ShellListItem
-                key={Plan.id}
-                to={Plan.id}
-                title={Plan.name}
-                subtitle={""}
-              />
-            ))}
-          </>
-        </Shell>
-      </aside>
+    <Default title="Planos" createPath="/plans/new">
+      <Outlet />
     </Default>
   );
 }

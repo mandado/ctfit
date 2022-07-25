@@ -52,24 +52,8 @@ export default function NotesPage() {
   }
 
   return (
-    <Default>
-      <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
-        <Outlet />
-      </main>
-      <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
-        <Shell title="Alunos">
-          <>
-            {students.map((student) => (
-              <ShellListItem
-                key={student.id}
-                to={student.id}
-                title={student.name || student.id}
-                subtitle={student.phone || ""}
-              />
-            ))}
-          </>
-        </Shell>
-      </aside>
+    <Default title="Alunos" createPath="/students/new">
+      <Outlet />
     </Default>
   );
 }

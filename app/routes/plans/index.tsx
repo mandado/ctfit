@@ -1,19 +1,60 @@
-import { Link } from "~/components/app/Link";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { requireOrganizationId } from "~/session.server";
+import { getPlans } from "~/domain/plans/plan.server";
+import { Plan } from "~/domain/plans/schema";
+import { Table } from "~/components/ui/table";
 
-export default function ModalitiesIndexPage() {
+import { createColumnHelper } from "@tanstack/react-table";
+
+type LoaderData = {
+  plans: Plan[];
+};
+
+const columnHelper = createColumnHelper<Plan>();
+
+const columns = [
+  columnHelper.accessor("id", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("name", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("price", {
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>Preço</span>,
+  }),
+  columnHelper.accessor("plans_modalities", {
+    cell: (info) => (
+      <i>
+        {info
+          .getValue()
+          ?.map((item) => item.modality.name)
+          .join(", ")}
+      </i>
+    ),
+    header: () => <span>Modalidades</span>,
+  }),
+];
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const { organizationId } = await requireOrganizationId(request);
+
+  const plans = await getPlans({ organization_id: organizationId });
+  return json({ plans });
+};
+
+export default function PlanIndexPage() {
+  const { plans } = useLoaderData() as LoaderData;
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="flex flex-col items-center justify-center p-6">
-        <p className="text-center font-semibold">
-          Nenhum plano selecionado.
-          <br />
-          Clique em um plano do lado esquerdo, ou:
-        </p>
-
-        <Link to="new" className="mt-4">
-          Criar novo plano
-        </Link>
-      </div>
+      <Table
+        onDelete={(plan: Plan) => console.log(plan)}
+        path="/plans"
+        data={plans}
+        columns={columns}
+      />
     </div>
   );
 }

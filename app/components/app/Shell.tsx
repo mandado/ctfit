@@ -5,9 +5,7 @@ import {
 } from "@heroicons/react/outline";
 import { Link, NavLink } from "@remix-run/react";
 import { ReactNode } from "react";
-import { Tooltip } from "../ui/tooltip";
-import Input from "./Input";
-import Button from "./BaseButton";
+import { Tooltip, Input, Button } from "../ui";
 
 type ShellProps = {
   title: string;
@@ -47,7 +45,7 @@ export default function Shell({ title, actions, children }: ShellProps) {
               <Button
                 type="submit"
                 disabled
-                className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                variant="secondary"
               >
                 <FilterIcon
                   className="h-5 w-5 text-gray-400"

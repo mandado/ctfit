@@ -8,8 +8,8 @@ import {
 import { LoaderFunction } from "@remix-run/node";
 import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { MouseEvent } from "react";
-import Button from "~/components/app/SubmitButton";
 import CopyUrl from "~/components/home/CopyUrl";
+import { Button } from "~/components/ui/button";
 import Default from "~/layout/Default";
 import { requireOrganizationId } from "~/session.server";
 import { cx } from "~/shared/helpers";
@@ -80,15 +80,20 @@ export default function Index() {
 
   return (
     <Default>
-      <div className="h-full w-full space-y-6 overflow-y-auto bg-gray-50 p-6">
+      <div className="grid h-full w-full grid-cols-3 gap-6">
         {actions.map((action, actionIdx) => (
-          <section className="overflow-hidden rounded-lg bg-white shadow">
-            <h4 className="flex gap-2 bg-indigo-50 p-4 text-xl font-semibold text-indigo-800">
+          <section
+            className={cx(
+              "overflow-hidden flex flex-col rounded-lg bg-white shadow",
+              actionIdx < 2 ? "col-span-6" : "col-span-12"
+            )}
+          >
+            <h4 className="flex gap-2 bg-gray-100 p-4 text-xl font-semibold text-gray-800">
               <QuestionMarkCircleIcon width="22" className="text-current" />
               {action.title}
             </h4>
             <p
-              className="mt-2 p-4 text-sm text-gray-800"
+              className="mt-2 h-full flex-grow p-4 text-sm text-gray-800"
               dangerouslySetInnerHTML={{ __html: action.text }}
             />
             {action.key === "students" && (
@@ -124,7 +129,8 @@ export default function Index() {
             <footer className="p-y divide-y divide-gray-200">
               <div
                 className={cx(
-                  (action.key === "modality" || action.key === "students") && "p-4"
+                  (action.key === "modality" || action.key === "students") &&
+                    "p-4"
                 )}
               >
                 {action.key === "modality" && !isPopulated && (
@@ -146,7 +152,7 @@ export default function Index() {
                 <Link
                   prefetch="intent"
                   to={action.href}
-                  className="tefocus:outline-none text-base font-medium text-indigo-400"
+                  className="tefocus:outline-none text-base font-medium text-gray-600"
                 >
                   {action.textLink}
                 </Link>

@@ -1,9 +1,7 @@
 import { Form } from "@remix-run/react";
 import { errorMessagesFor } from "remix-domains";
-import SubmitButton from "~/components/app/Button";
 import ComboBox from "~/components/app/Combobox";
-import Error from "~/components/app/Error";
-import TextField from "~/components/app/TextField";
+import { TextField, Error, Button } from "~/components/ui";
 import { Plan } from "~/domain/plans/schema";
 import { ErrorsSchema } from "~/types/common/form";
 import { Shifts } from "./Shifts";
@@ -40,7 +38,7 @@ export default function PlanForm({
         values={{ shift: values?.shift, price: values?.price }}
         errors={errors}
       />
-      <SubmitButton>Salvar</SubmitButton>
+      <Button>Salvar</Button>
     </Form>
   );
 }

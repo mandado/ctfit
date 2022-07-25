@@ -1,19 +1,70 @@
-import { Link } from "~/components/app/Link";
+import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Outlet, useFetcher, useLoaderData, useSubmit } from "@remix-run/react";
+import Default from "~/layout/Default";
+import { createStudent, getStudents } from "~/models/student.server";
+import { requireOrganizationId } from "~/session.server";
+import { createColumnHelper } from "@tanstack/react-table";
+import { Student } from "~/domain/students/schema";
+import Shell from "~/components/app/Shell";
+import ShellListItem from "~/components/app/ShellListItem";
+import { useMatchesData } from "~/utils";
+import { Table } from "~/components/ui/table";
 
-export default function StudentsIndexPage() {
+type LoaderData = {
+  students: Student[];
+};
+
+const columnHelper = createColumnHelper<Student>();
+
+const columns = [
+  columnHelper.accessor("id", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("name", {
+    cell: (info) => info.getValue(),
+  }),
+];
+
+export const action: ActionFunction = async ({ request }) => {
+  const { organizationId } = await requireOrganizationId(request);
+
+  await createStudent({
+    organization_id: organizationId,
+    email: "",
+    graduation: "",
+    name: "",
+    phone: "",
+    weight: 0,
+  });
+  return redirect(`/students`);
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  if (new URL(request.url).pathname.includes("fill")) {
+    return json({});
+  }
+
+  const { organizationId } = await requireOrganizationId(request);
+
+  const students = await getStudents({ organization_id: organizationId });
+  return json({ students });
+};
+
+export default function NotesPage() {
+  const isFillScreen = useMatchesData("routes/students/$studentId/fill");
+  const { students } = useLoaderData() as LoaderData;
+
+  if (isFillScreen) {
+    return <Outlet />;
+  }
+
   return (
-    <div className="flex h-full w-full items-center justify-center">
-      <div className="flex flex-col items-center justify-center p-6">
-        <p className="text-center font-semibold">
-          Nenhum aluno selecionado.
-          <br />
-          Clique em um aluno do lado esquerdo, ou:
-        </p>
-
-        <Link to="new" className="mt-4">
-          Criar novo aluno
-        </Link>
-      </div>
-    </div>
+    <Table
+      onDelete={(plan: Student) => console.log(plan)}
+      path="/students"
+      data={students}
+      columns={columns}
+    />
   );
 }

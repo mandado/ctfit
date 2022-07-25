@@ -1,19 +1,47 @@
-import { Link } from "~/components/app/Link";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { requireOrganizationId } from "~/session.server";
+import { getPlans } from "~/domain/plans/plan.server";
+import { Plan } from "~/domain/plans/schema";
+import { Table } from "~/components/ui/table";
 
-export default function ModalitiesIndexPage() {
+import { createColumnHelper } from "@tanstack/react-table";
+import { Modality } from "~/domain/modalities/schema";
+import { getModalities } from "~/models/modality.server";
+
+type LoaderData = {
+  modalities: Modality[];
+};
+
+const columnHelper = createColumnHelper<Plan>();
+
+const columns = [
+  columnHelper.accessor("id", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("name", {
+    cell: (info) => info.getValue(),
+  })
+];
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const { organizationId } = await requireOrganizationId(request);
+
+  const modalities = await getModalities({ organization_id: organizationId });
+  return json({ modalities });
+};
+
+export default function PlanIndexPage() {
+  const { modalities } = useLoaderData() as LoaderData;
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="flex flex-col items-center justify-center p-6">
-        <p className="text-center font-semibold">
-          Nenhuma modalidade selecionada.
-          <br />
-          Clique em uma modalidade do lado esquerdo, ou:
-        </p>
-
-        <Link to="new" className="mt-4">
-          Criar nova modalidade
-        </Link>
-      </div>
+      <Table
+        onDelete={(plan: Modality) => console.log(plan)}
+        path="/modalities"
+        data={modalities}
+        columns={columns}
+      />
     </div>
   );
 }

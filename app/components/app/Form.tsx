@@ -1,12 +1,7 @@
 import { Form as RemixForm, FormProps } from "remix-forms";
 import type { SomeZodObject } from "zod";
-import SubmitButton from "./Button";
-import Button from "./Button";
-import Error from "./Error";
+import { SubmitButton, Input, Select, Label, Error } from "../ui";
 import Errors from "./Errors";
-import Input from "./Input";
-import Label from "./Label";
-import Select from "./Select";
 
 export default function Form<Schema extends SomeZodObject>(
   props: FormProps<Schema>
@@ -22,19 +17,13 @@ export default function Form<Schema extends SomeZodObject>(
       renderField={({ Field, ...props }) => {
         const { name, errors } = props;
 
-        console.log(errors);
-
         return (
           <Field key={name as string} {...props}>
             {({ Label, SmartInput, Errors }) => (
               <>
                 <Label className={errors ? "text-red-600" : undefined} />
                 <SmartInput
-                  className={
-                    errors
-                      ? "border-red-600 focus:border-red-600 focus:ring-red-600"
-                      : undefined
-                  }
+                  {... errors?.length && ({ variant: 'error' })}
                 />
                 <Errors />
               </>

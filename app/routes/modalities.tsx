@@ -25,24 +25,8 @@ export default function NotesPage() {
   const { modalities } = useLoaderData() as LoaderData;
 
   return (
-    <Default>
-      <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
-        <Outlet />
-      </main>
-      <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
-        <Shell title="Modalidades">
-          <>
-            {modalities.map((modality) => (
-              <ShellListItem
-                key={modality.id}
-                to={modality.id}
-                title={modality.name}
-                subtitle={""}
-              />
-            ))}
-          </>
-        </Shell>
-      </aside>
+    <Default title="Modalidades" createPath="/modalities/new">
+      <Outlet />
     </Default>
   );
 }

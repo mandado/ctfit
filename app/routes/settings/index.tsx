@@ -37,7 +37,7 @@ export default function Configurations() {
   };
 
   return (
-    <Default title="Configurações">
+    <Default>
       <main className="w-full max-w-screen-sm p-4">
         <h2 className="text-lg font-medium text-gray-900">Configurações</h2>
 

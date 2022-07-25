@@ -7,7 +7,7 @@ import {
 import { Form, useLoaderData } from "@remix-run/react";
 import SubmitButton from "~/components/app/Button";
 import { Link } from "~/components/app/Link";
-import Button from "~/components/app/SubmitButton";
+import { Button } from "~/components/ui";
 import { Organization } from "~/domain/organizations/schema";
 import { removeOrganization } from "~/models/organization.server";
 import { supabase } from "~/models/user.server";
@@ -128,7 +128,7 @@ export default function Organizations() {
             </div>
           </Form>
           <div className="mt-3">
-            <Link to="new" className="w-full">
+            <Link to="new" className="w-full justify-center">
               Cadastrar Nova Organização
             </Link>
           </div>
