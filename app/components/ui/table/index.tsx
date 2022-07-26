@@ -5,18 +5,30 @@ import {
   ColumnDef,
 } from "@tanstack/react-table";
 import { Link } from "~/components/app/Link";
+import { EmptyData } from "~/assets/illustration/empty";
 import Button from "../button";
+
+const DEFAULT_NOT_FOUND_MESSAGES = {
+  title: "Nenhum dado encontrado, que tal criar um novo ?",
+  subtitle:
+    "Clique no botão acima criar novo, para criar novo um novo registro.",
+};
 
 export function Table<T>({
   data,
   path,
   columns,
-  onDelete
+  notFound = DEFAULT_NOT_FOUND_MESSAGES,
+  onDelete,
 }: {
   data: any;
   path: string;
+  notFound?: {
+    title: string;
+    subtitle: string;
+  };
   columns: ColumnDef<any, any>[];
-  onDelete: (data: T) => void
+  onDelete: (data: T) => void;
 }) {
   const table = useReactTable({
     data,
@@ -25,16 +37,40 @@ export function Table<T>({
       header: "Ações",
       cell: (row) => (
         <div className="space-x-4">
-          <Link size="small" to={`${path}/${row.row.original?.id}/edit`}>Editar</Link>
-          <Button onClick={() => onDelete(row.row.original)} variant="cancel" size="small">Deletar</Button>
+          <Link size="small" to={`${path}/${row.row.original?.id}/edit`}>
+            Editar
+          </Link>
+          <Button
+            onClick={() => onDelete(row.row.original)}
+            variant="cancel"
+            size="small"
+          >
+            Deletar
+          </Button>
         </div>
       ),
     }),
     getCoreRowModel: getCoreRowModel(),
   });
 
+  if (!data.length) {
+    return (
+      <div className="my-10 flex flex-col items-center justify-center">
+        <h2 className="mb-4 text-xl font-bold text-gray-700">
+          {notFound.title}
+        </h2>
+        <p className="mb-4 text-sm font-bold text-gray-500">
+          {notFound.subtitle}
+        </p>
+        <div className="w-64">
+          <EmptyData />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <table className="min-w-full divide-y roundede divide-gray-300 border">
+    <table className="roundede min-w-full divide-y divide-gray-300 border">
       <thead className="bg-gray-50">
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id} className="divide-x divide-gray-200">

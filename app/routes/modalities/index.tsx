@@ -22,7 +22,7 @@ const columns = [
   }),
   columnHelper.accessor("name", {
     cell: (info) => info.getValue(),
-  })
+  }),
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -41,6 +41,11 @@ export default function PlanIndexPage() {
         path="/modalities"
         data={modalities}
         columns={columns}
+        notFound={{
+          title: "Nenhuma modalidade encontrada, que tal criar uma nova ?",
+          subtitle:
+            "Clique no botão acima criar novo, para criar novo uma nova modalidade.",
+        }}
       />
     </div>
   );

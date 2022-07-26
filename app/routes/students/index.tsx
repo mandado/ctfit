@@ -78,6 +78,11 @@ export default function NotesPage() {
       path="/students"
       data={students}
       columns={columns}
+      notFound={{
+        title: "Nenhum aluno encontrado, que tal criar um novo ?",
+        subtitle:
+          "Clique no botão acima criar novo, para criar novo um novo aluno.",
+      }}
     />
   );
 }

@@ -55,6 +55,11 @@ export default function PlanIndexPage() {
         path="/plans"
         data={plans}
         columns={columns}
+        notFound={{
+          title: "Nenhum plano encontrado, que tal criar um novo ?",
+          subtitle:
+            "Clique no botão acima criar novo, para criar novo um novo plano.",
+        }}
       />
     </div>
   );

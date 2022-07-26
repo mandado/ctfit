@@ -5,11 +5,10 @@ import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { cx } from "~/shared/helpers";
 import { useOrganization, useUser } from "~/utils";
 import { NavLink } from "react-router-dom";
-import { Form, Outlet } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { Link } from "~/components/app/Link";
+import Avvvatars from "avvvatars-react";
 
-const imageUrl =
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
 const navigation = [
   { name: "Início", href: "/" },
   { name: "Alunos", href: "/students" },
@@ -21,7 +20,15 @@ const userNavigation = [
   { name: "Configurações", href: "/settings" },
 ];
 
-export default function Default({ children, title, createPath }: { children: ReactNode, title: string, createPath?: string }) {
+export default function Default({
+  children,
+  title,
+  createPath,
+}: {
+  children: ReactNode;
+  title: string;
+  createPath?: string;
+}) {
   const user = useUser();
   const organization = useOrganization();
   return (
@@ -79,11 +86,7 @@ export default function Default({ children, title, createPath }: { children: Rea
                             <div>
                               <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                 <span className="sr-only">Abrir menu</span>
-                                <img
-                                  className="h-8 w-8 rounded-full"
-                                  src={imageUrl}
-                                  alt=""
-                                />
+                                <Avvvatars value={user.email} size={40} />
                               </Menu.Button>
                             </div>
                             <Transition
@@ -118,7 +121,7 @@ export default function Default({ children, title, createPath }: { children: Rea
                                     <Form action="/logout" method="post">
                                       <button
                                         type="submit"
-                                        className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
                                       >
                                         Sair
                                       </button>
@@ -175,11 +178,7 @@ export default function Default({ children, title, createPath }: { children: Rea
                   <div className="border-t border-gray-700 pt-4 pb-3">
                     <div className="flex items-center px-5">
                       <div className="flex-shrink-0">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src={imageUrl}
-                          alt=""
-                        />
+                        <Avvvatars value={user.email} size={40} />
                       </div>
                       <div className="ml-3">
                         <div className="text-base font-medium leading-none text-white">
@@ -215,13 +214,25 @@ export default function Default({ children, title, createPath }: { children: Rea
             )}
           </Disclosure>
           <header className="py-10">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between">
+            <div className="mx-auto flex max-w-7xl justify-between px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold text-white">{title}</h1>
 
-              {createPath && <Link variant="secondary" to={createPath}>Criar Novo</Link>}
+              {createPath && (
+                <Link variant="secondary" to={createPath}>
+                  Criar Novo
+                </Link>
+              )}
             </div>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between">
-              {createPath && <Link variant="secondaryLink" size="small" to={createPath?.split('/')[0]}>Voltar para listagem</Link>}
+            <div className="mx-auto flex max-w-7xl justify-between px-4 sm:px-6 lg:px-8">
+              {createPath && (
+                <Link
+                  variant="secondaryLink"
+                  size="small"
+                  to={createPath?.split("/")[0]}
+                >
+                  Voltar para listagem
+                </Link>
+              )}
             </div>
           </header>
         </div>
