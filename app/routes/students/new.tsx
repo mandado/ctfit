@@ -45,6 +45,12 @@ export default function NewStudentPage() {
         schema={StudentSchema}
         labels={{
           plan_id: "Plano",
+          name: "Nome",
+          email: "Email",
+          phone: "Telefone",
+          graduation: "Graduação",
+          document_number: "CPF",
+          weight: "Peso",
         }}
         options={{
           plan_id: toHTMLSelectOptions(data.plans),

@@ -21,7 +21,7 @@ export default function newModalitiesPage() {
   return (
     <div className="rounded-xl p-6">
       <h2 className="mb-4 pb-4 text-2xl">Adicionar Nova Modalidade</h2>
-      <Form schema={ModalitySchema} />
+      <Form labels={{ name: "Nome" }} schema={ModalitySchema} />
     </div>
   );
 }

@@ -19,11 +19,12 @@ const columns = [
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("name", {
+    header: "Nome",
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("price", {
+    header: "Preço",
     cell: (info) => <i>{info.getValue()}</i>,
-    header: () => <span>Preço</span>,
   }),
   columnHelper.accessor("plans_modalities", {
     cell: (info) => (
@@ -34,7 +35,7 @@ const columns = [
           .join(", ")}
       </i>
     ),
-    header: () => <span>Modalidades</span>,
+    header: "Modalidades",
   }),
 ];
 

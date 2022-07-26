@@ -49,7 +49,12 @@ export default function NewStudentPage() {
       <h2 className="mb-4 border-b pb-4 text-2xl">
         Editando dados de {data.modality.name}
       </h2>
-      <Form mode="all" schema={ModalitySchema} values={data.modality} />
+      <Form
+        mode="all"
+        labels={{ name: "Nome" }}
+        schema={ModalitySchema}
+        values={data.modality}
+      />
     </div>
   );
 }
