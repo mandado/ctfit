@@ -18,20 +18,14 @@ type LoaderData = {
 const columnHelper = createColumnHelper<Student>();
 
 const columns = [
-  columnHelper.accessor("id", {
-    cell: (info) => info.getValue(),
-  }),
   columnHelper.accessor("name", {
     header: "Nome",
-    cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("email", {
     header: "Email",
-    cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("phone", {
     header: "Telefone",
-    cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("plan", {
     header: "plano",

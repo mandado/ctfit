@@ -1,11 +1,8 @@
-import { ComponentPropsWithoutRef, forwardRef } from 'react';
-import { Merge } from 'type-fest';
-import { input, InputProps as InputPropsStyle } from './style';
+import { ComponentPropsWithoutRef, forwardRef } from "react";
+import { Merge } from "type-fest";
+import { input, InputProps as InputPropsStyle } from "./style";
 
-type InputProps = Merge<
-  ComponentPropsWithoutRef<'input'>,
-  InputPropsStyle
->;
+type InputProps = Merge<ComponentPropsWithoutRef<"input">, InputPropsStyle>;
 type Ref = HTMLInputElement;
 
 export const Input = forwardRef<Ref, InputProps>((props, ref) => {
@@ -18,6 +15,8 @@ export const Input = forwardRef<Ref, InputProps>((props, ref) => {
       type={type}
     />
   );
-})
+});
+
+Input.displayName = "Input";
 
 export default Input;

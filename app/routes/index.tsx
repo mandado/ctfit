@@ -79,13 +79,14 @@ export default function Index() {
   };
 
   return (
-    <Default>
-      <div className="grid h-full w-full grid-cols-3 gap-6">
+    <Default title="Início">
+      <div className="grid h-full w-full grid-cols-1 gap-y-6 lg:grid-cols-3 lg:gap-6">
         {actions.map((action, actionIdx) => (
           <section
+            key={actionIdx}
             className={cx(
-              "overflow-hidden flex flex-col rounded-lg bg-white shadow",
-              actionIdx < 2 ? "col-span-6" : "col-span-12"
+              "col-span-12 flex flex-col overflow-hidden rounded-lg bg-white shadow",
+              actionIdx < 2 ? "md:col-span-6" : "md:col-span-12"
             )}
           >
             <h4 className="flex gap-2 bg-gray-100 p-4 text-xl font-semibold text-gray-800">
